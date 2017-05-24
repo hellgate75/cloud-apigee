@@ -1,0 +1,169 @@
+- name: install Gateway-required packages
+  yum: name={{item}} state=present
+  with_items:
+    - git
+    - hg
+    - ca-certificates
+    - sudo
+    - wget
+
+- name: Download Go 1.8
+  shell: wget https://storage.googleapis.com/golang/go1.8.linux-amd64.tar.gz
+  args:
+    chdir: /root
+    creates: /root/go1.8.linux-amd64.tar.gz
+
+- name: Extract Go 1.8
+  shell: "tar -xvf go1.8.linux-amd64.tar.gz && mv go /usr/local && rm -f /root/go1.8.linux-amd64.tar.gz && chmod 777 /usr/local/go/bin/* && export GOROOT=/usr/local/go"
+  args:
+    chdir: /root
+    creates: /usr/local/go
+
+- name: Define GOPATH folder
+  file: path=~/go/src state=directory mode=777 owner=root
+
+- name: Define GOPATH environment variable
+  shell: echo "export GOPATH=/root/go" >> ~/.bashrc && echo "export GOPATH=/root/go" >> /home/centos/.bashrc && export GOPATH=/root/go && export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+
+- name: Define root GO Environment
+  shell: echo "export GOROOT=/usr/local/go" >> /root/.bashrc && echo 'export PATH=$GOPATH/bin:$GOROOT/bin:$PATH' >> /root/.bashrc && . /root/.bashrc
+  args:
+    chdir: /root
+
+- name: Define centos GO Environment
+  shell: echo "export GOROOT=/usr/local/go" >> /home/centos/.bashrc && echo export 'PATH=$GOPATH/bin:$GOROOT/bin:$PATH' >> /home/centos/.bashrc && chown -Rf centos:centos /home/centos
+  args:
+    chdir: /home/centos
+
+- name: Define Unit Test module base folder
+  file: path=~/go/src/github.com/stretchr state=directory
+
+- name: Delete If exists Unit Test module base folder
+  file: path=~/go/src/github.com/stretchr/testify state=absent
+
+- name: git clone Unit Test module from repository
+  shell: git clone https://github.com/stretchr/testify.git
+  args:
+    chdir: ~/go/src/github.com/stretchr
+    creates: ~/go/src/github.com/stretchr/testify
+
+- name: Delete If exists Gateway module base folder
+  file: path=~/go/src/gateway state=absent
+
+- name: git clone Gateway module from repository
+  shell: git clone https://github.com/fabriziotorelli-wipro/go-gateway-reverse.git gateway
+  args:
+    chdir: ~/go/src
+    creates: ~/go/src/gateway
+
+- name: Compile as executable Gateway package
+  shell: . ~/.bashrc && make exe
+  args:
+    chdir: ~/go/src/gateway
+    creates: gateway
+
+- name: Install Gateway in bin folder
+  shell: cp -f gateway /usr/local/bin
+  args:
+    chdir: ~/go/src/gateway
+    creates: /usr/local/bin/gateway
+
+- name: Associate centos user to sudoers
+  shell: usermod -aG sudoers centos
+  ignore_errors: yes
+
+- name: Define Gateway Config Folder
+  file: path=/root/gateway state=directory owner=root force=yes mode=777
+
+- name: Define Gateway Security Folder
+  file: path="{{ gateway_security_folder }}" state=directory owner=root force=yes mode=777
+  when: gateway_security_folder != ""
+
+- name: Define Index Server Local Certificate
+  copy: content="{{ gateway_index_x509_certificate }}" dest="{{ gateway_index_x509_certificate_file }}"
+  when: gateway_index_x509_certificate_file != ""
+
+- name: Define Index Server Local Certificate Key
+  copy: content="{{ gateway_index_x509_key }}" dest="{{ gateway_index_x509_key_file }}"
+  when: gateway_index_x509_key_file != ""
+
+- name: Define Index Server Local CRS Certificate
+  copy: content="{{ gateway_index_server_crs }}" dest="{{ gateway_index_server_crs_file }}"
+  when: gateway_index_server_crs_file != ""
+
+- name: Define Index Server Local CA Certificate
+  copy: content="{{ gateway_index_ca_certificate }}" dest="{{ gateway_index_ca_certificate_file }}"
+  when: gateway_index_ca_certificate_file != ""
+
+- name: Define Index Server Local CA Certificate Key
+  copy: content="{{ gateway_index_ca_key }}" dest="{{ gateway_index_ca_key_file }}"
+  when: gateway_index_ca_key_file != ""
+
+- name: Define Index Server Local CA SRL Key
+  copy: content="{{ gateway_index_ca_srl }}" dest="{{ gateway_index_ca_srl_file }}"
+  when: gateway_index_ca_srl_file != ""
+
+- name: Define Services Certificate
+  copy: content="{{ gateway_services_x509_certificate }}" dest="{{ gateway_services_x509_certificate_file }}"
+  when: gateway_services_x509_certificate_file != ""
+
+- name: Define Services Certificate Key
+  copy: content="{{ gateway_services_x509_key }}" dest="{{ gateway_services_x509_key_file }}"
+  when: gateway_services_x509_key_file != ""
+
+- name: Define Services CRS Certificate
+  copy: content="{{ gateway_services_server_crs }}" dest="{{ gateway_services_server_crs_file }}"
+  when: gateway_services_server_crs_file != ""
+
+- name: Define Services CA Certificate
+  copy: content="{{ gateway_services_ca_certificate }}" dest="{{ gateway_services_ca_certificate_file }}"
+  when: gateway_services_ca_certificate_file != ""
+
+- name: Define Services CA Certificate Key
+  copy: content="{{ gateway_services_ca_key }}" dest="{{ gateway_services_ca_key_file }}"
+  when: gateway_services_ca_key_file != ""
+
+- name: Define Services CA SRL Key
+  copy: content="{{ gateway_services_ca_srl }}" dest="{{ gateway_services_ca_srl_file }}"
+  when: gateway_services_ca_srl_file != ""
+
+- name: Copy Gateway Port Services Configuration
+  template: src=config.json.j2 dest=/root/gateway/config.json owner=root force=yes mode=777
+
+- name: Copy Gateway Index Service Configuration
+  template: src=indexservice.json.j2 dest=/root/gateway/indexservice.json owner=root force=yes mode=777
+
+- name: Copy Gateway Port Backend Services Configuration
+  template: src=data.json.j2 dest=/root/gateway/data.json owner=root force=yes mode=777
+
+- name: Enable trust ca-certificates feature
+  shell: update-ca-trust force-enable
+
+- name: Define Index Server System CA Certificate
+  copy: content="{{ gateway_index_ca_certificate }}" dest="/etc/pki/ca-trust/source/anchors/gateway_local.crt"
+  when: gateway_index_ca_certificate != ""
+
+- name: Define Index Server System Self-Signed CA Certificate
+  copy: content="{{ gateway_index_x509_certificate }}" dest="/etc/pki/ca-trust/source/anchors/gateway_local.crt"
+  when: gateway_index_ca_certificate == ""
+
+- name: Define Services System CA Certificate
+  copy: content="{{ gateway_services_ca_certificate }}" dest="/etc/pki/ca-trust/source/anchors/gateway_remote.crt"
+  when: gateway_services_ca_certificate != ""
+
+- name: Define Services System Self-Signed CA Certificate
+  copy: content="{{ gateway_services_x509_certificate }}" dest="/etc/pki/ca-trust/source/anchors/gateway_remote.crt"
+  when: gateway_services_ca_certificate == ""
+
+- name: Force application of ca-certificates
+  shell: update-ca-trust extract
+
+- name: Define Gateway Config Path
+  copy: src=gateway.service dest=/etc/systemd/system/gateway.service
+
+- name: Start gateway service, also issue daemon-reload to pick up config changes
+  systemd:
+    enabled: yes
+    state: started
+    daemon_reload: yes
+    name: gateway

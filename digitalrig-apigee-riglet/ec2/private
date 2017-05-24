@@ -1,0 +1,43 @@
+###### TF ######
+
+tf_shared:
+ - region
+ - vpc_net_cidr
+ - public_net_cidr
+ - public_availability_zone
+ - internal_net_cidr
+ - internal_net_prefix
+ - internal_availability_zone
+ - ansible_domain
+ - route_53_domain_id
+ - ad_krb_realm
+ - krb_domain
+ - base_dn
+ - ad_password
+ - keypair
+ - internal_keypair
+ - dr_scripts_ref
+ - digitalrig_riglet_ref
+ - platform_ref
+ - vpn_knock_lower_port
+ - vpn_knock_upper_port
+ - domain_plat
+ - domain_rig
+ - ad_type
+
+tf_outputs:
+ - ad-admin-box-ip
+ - ad-dns-1
+ - ad-dns-2
+ - openvpn-host
+ - riglet-vpc-id
+ - rig-internal-route-table-id
+ - rig-public-route-table-id
+ - rig-route53-internal-zone-id
+ - rig-default-security-group-id
+ - rig-private-subnet-id
+ - front-end-private-ip
+ - front-end-public-ip
+ - gateway-private-ip
+ - gateway-public-ip
+ - docker-ci-cd-private-ip

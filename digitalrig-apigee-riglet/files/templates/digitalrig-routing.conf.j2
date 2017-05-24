@@ -1,0 +1,21 @@
+passStandardProxyHeaders()
+
+path("/nexus/**") {
+    routeTo "http://nexus.{{ domain }}:9000/"
+}
+
+path("/jenkins/**") {
+    routeTo "http://jenkins.{{ domain }}:9000/"
+}
+
+path("/jenkins-enterprise/**") {
+    routeTo "http://jenkins-enterprise.{{ domain }}:9000/"
+}
+
+path("/sonar/**") {
+    routeTo "http://sonar.{{ domain }}:9000/"
+}
+
+path("/crucible/**") {
+    routeTo "http://sonar.{{ domain }}:8060/"
+}

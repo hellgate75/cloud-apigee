@@ -1,0 +1,33 @@
+- name: Disallow root SSH access
+  action: lineinfile dest=/etc/ssh/sshd_config regexp="^PermitRootLogin" line="PermitRootLogin no" state=present
+  notify: Restart sshd
+
+- name: install epel
+  yum:
+    name=epel-release
+    state=latest
+
+- name: update all packages
+  yum:
+    name=*
+    state=latest
+
+- name: Disallow password authentication
+  action: lineinfile dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication" line="PasswordAuthentication no" state=present
+  notify: Restart sshd
+
+- name: install basic pkgs
+  yum: pkg={{ item }} state=installed
+  with_items:
+    - wget
+    - telnet
+    - unzip
+    - vim
+
+# Commenting out as still WIP + unclear whether we need this, virtualisation
+# seems to provide it but conflicting stuff online about how well this works, clock skew etc
+#- name: install ntp
+#  yum: name=ntp state=installed
+#- name: run ntp + set enabled
+#  service: name=ntpd state=started enabled=yes
+

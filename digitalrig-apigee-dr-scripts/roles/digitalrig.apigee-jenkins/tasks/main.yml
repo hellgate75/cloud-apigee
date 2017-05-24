@@ -1,0 +1,11 @@
+
+- name: Define pipeline installation folder
+  file: path=/root/pipeline state=directory
+
+- name: Define Docker Compose file
+  copy: src=docker-compose.yml dest=/root/pipeline/docker-compose.yml
+
+- name: Install Pipeline
+  shell: docker-compose up -d
+  args:
+    chdir: /root/pipeline

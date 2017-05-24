@@ -1,0 +1,76 @@
+tf_config_path: ../digitalrig-apigee-riglet-instances/apigee.riglet
+
+region: <AWS-region>
+vpc_net_cidr: 10.10.243.0/24
+public_net_cidr: 10.10.243.0/27
+
+# second subnet is for convox
+vpn_subnets: ['10.10.0.0 255.255.0.0', '10.20.0.0 255.255.0.0']
+vpn_client_subnet: '10.8.0.0 255.255.255.0'
+
+ad_type: SimpleAD
+ad_admin_name: Administrator
+public_availability_zone: b
+internal_net_cidr: 10.10.243.32/27
+internal_net_prefix: 10.10.243
+internal_availability_zone: c
+ansible_domain: <Your-Domain>.apigee.riglet
+ansible_module: apigee.riglet
+# ID of the route53 domain that should be used for the VPN
+# mapping to domain name/id route53.
+route_53_domain_id: <route53-domain-id>
+route_53_domain_name: <route-53-domain-name>
+
+# Ideally, the AD kerberos realm should be set to the uppercase of the Domain -- this is only used internally to the VPC
+# the kerberos domain can be lowercase, the base dn identify the root for users in your AD Server
+ad_krb_realm: <MY-DOTTED-UPPERCASE-REALM>
+krb_domain: <my-dotted-domain>
+base_dn: dc=corp,dc=riglet,dc=io
+ad_password: <Your-AD-Password>
+domain_plat: generic.riglet
+domain_rig: apigee.riglet
+
+# Change this based on the region
+keypair: <aws-key-pair-name>
+internal_keypair: <aws-key-pair-name>
+# > Uncomment in case you need to use custom image
+# > See default-linux-ami in ./variables for region-to-ami mapping
+# linux-ami"          { default = "ami-925559f8" }
+
+dr_scripts_ref: master
+digitalrig_riglet_ref: master
+digitalrig_instance_ref: master
+
+# todo: need to merge rig-2.0 to master?
+platform_ref: master
+
+# duplication, but there is a bug in ansible template preventing me from calculation of {{ knock_open | min }}
+vpn_knock_lower_port: 5000
+vpn_knock_upper_port: 5002
+
+knockd_interface: eth0
+knockd_open_interface: tun0
+
+edgemicro_org: "<my-organization-here>"
+edgemicro_env: "<my-environment-here>"
+edgemicro_user: "<my-apigee-user-here>"
+edgemicro_pass: "<my-apigee-secret-here>"
+edgemicro_consumer_credentials: "<my-comma-separated-and column-separated-application-credentials-here>"
+edgemicro_private_cloud: "<yes-or-not-allowed-for-admins-only>"
+edgemicro_router: "<apigee-full-qualified-router-url> (ex: http://myorg.myenv.apigee.net)"
+edgemicro_api_mngmt: "<apigee-full-qualified-api-manager-url> (ex: http://myorg.myenv.apigee.net)"
+
+apigee_gateway_proxy_url: "<here-apigee-proxy-url>"
+apigee_edge_proxy_path: "<here-apigee--edge-proxy-path>"
+
+knock_open:
+- 5001
+- 5000
+- 5002
+- 5000
+- 5001
+
+knock_close:
+- 5002
+- 5001
+- 5000

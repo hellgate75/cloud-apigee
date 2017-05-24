@@ -1,0 +1,6 @@
+yum_s3_repos: []
+yum_s3_repo_enabled: 0
+
+# by default, no metadata expiry is defined, this means it remains unset in yum repo file
+# but can be set by clients
+#yum_s3_metadata_expire: 1m

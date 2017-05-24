@@ -1,0 +1,6 @@
+dependencies:
+    - { role: yum-s3-client,
+        yum_s3_repos: [{
+            name: "digitalrig",
+            baseurl: "http://digitalrig-yum-repo.s3-eu-west-1.amazonaws.com" }],
+        yum_s3_metadata_expire: "1m" }

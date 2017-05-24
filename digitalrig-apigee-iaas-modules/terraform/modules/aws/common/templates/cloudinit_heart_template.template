@@ -1,0 +1,125 @@
+#cloud-config
+
+hostname: REPLACE_HOSTNAME
+fqdn: REPLACE_HOSTNAME.${ad-domain}
+
+# Set our hostname in /etc/hosts too
+manage_etc_hosts: true
+
+# The rest enables the server to pull the relevant src repos from bitbucket and initialise itself by
+# executing the relevant playbook
+# It also join the AWS Active Directory and execute the generic ansible pipeline
+write_files:
+  - path: /var/lib/cloud/keys/bitbucket_key
+    permissions: 0600
+    owner: root:root
+    content: |
+      -----BEGIN RSA PRIVATE KEY-----
+      MIIEpAIBAAKCAQEAqAosiwdsUQBZCEsiPYfkVr65DfjptsopwZSv2MerK8iAB45p
+      T7jZZx+nro3ru+kHwIED2awZC2w2ZAGqH7UXVhdVjYJo6UWAw44bTZ98ZsPEyWoh
+      rWbpOR9J4YGWA01Y5RBFL+scCkGrw4gKSjsmCaLAHKzDXYt872vbA6eQF9vDrah2
+      sruwNGI5+p46g1iP0IDHo0humrcBKdvozbyx3Yv/ap9lT3vnkkC2x6OzaOVOyoL0
+      arZWxtHtSEGT2yuqyEExfUqliav1ORgWUUkngblykwUYfTWj+oNFT3QPoWq8kjqP
+      lctrhI+GLDG5U8GVlxoDN1HtMEKU4a4EoitVcQIDAQABAoIBAHFwPNW2MycThwcU
+      QY8sN7dflWmbSZs+KqYmC/faAvHRrqxrNSi+bvUw52/tGuCF1dfcwI6noViWurkU
+      bpZtF83kfrrC+LPRWbWqL0BdlAuDyUr3PLjkqjkHqEZ1xqGAC6zHKQ3KN+msn5mm
+      MtwdxfXnSq2Q62oxCixOsVFsQtf3Sb7qAWXA6vSeBvvBifC4XzVIlDPl/tWaT3HZ
+      WWDd3GJsfd4F8Vufs561ZkZdpecydPB47ou+2GkjcZiOe/Ki9CiGMJSJVbqGDPdI
+      pyn4/Vh2U0u+dSD+uX8PxueVSF90e2p7Y9xHyIoY4TFdmPHPei62kzSLLhRUjcn/
+      CKjoFoECgYEAz/18uMfiQioSjRVZ+UW2ha3pizoJ7XYt8HisoNtC5dAJYCrJb2Dd
+      LLkFmsbqD5JBzQEZ/EIRsVNNm4187EnC0Ij1YKEzGE+L+MJVvtodVqdEaNfdeYMT
+      HsmaMtUw/RrGZFLsSOJQ7o9+Ox2AV5cNOzk5/oEdHw5P9MnQWhPnnGkCgYEAztPx
+      jW3Zwufag/nIMnX9gr94waUex4fA0/sSZmfCD7p1meBre9S21CHvtRx3JEGFru0x
+      kJ0gQ97GDEsUV2LBN5iFD0dcJzbix/NmRD1XZxICE3mS2UWi1e9j0vtXzKJRpxM1
+      hSkyu4gaLG9ARK50v9jC5uTaiNCcblyyFGCAb8kCgYEAknDYosVhgdJbk2goHEFA
+      PKjxWWy41q+xsrFUYkFeva4XG9WkVD4wG6/9yTcqT2Jb3/pZkGn4SRDtAIvDHB7n
+      AqqbkbiN4B0J4VD6zFCH/Z3xpZvvPQHTsYaigg3m2x5B9xsHcF2gPAdeCkNAPOuG
+      jl9BfPbtSRNrql95yiJfnZkCgYEAylsi4jSv8bnWWXlxHa3DMsES7KMY0i9Hwh7L
+      idXKUIkltj+T6bvchQAO/yuyhY51tQfsjoisoLq9Ghn69ORyFmrrBF/VEajpiKfj
+      TrCVawp7bYJs4pb3Ekj9adbvuA63xLdOjdIZCNHIieDvCEOHhowVZMJT7bfs1S1s
+      LfOctcECgYBy0kT4Vc7IxK8VIGuEaNQB8gjY/wUqxOstZT4MLdbQO+qSeHrTfN32
+      rq8+o4hupRSpIUoE/GW0/gcGzd+VbVQzJge8rBk1i75D+hkNqP+2ZQkjx2h42GI3
+      HqCEe/LKC64n4EqCtOui8a+Co5OcF2ExLGoajRzS36Up6ItByjsV4Q==
+      -----END RSA PRIVATE KEY-----
+  - path: /var/lib/cloud/keys/bitbucket_key.pub
+    permissions: 0600
+    owner: root:root
+    content: |
+      ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCoCiyLB2xRAFkISyI9h+RWvrkN+Om2yinBlK/Yx6sryIAHjmlPuNlnH6eujeu76QfAgQPZrBkLbDZkAaoftRdWF1WNgmjpRYDDjhtNn3xmw8TJaiGtZuk5H0nhgZYDTVjlEEUv6xwKQavDiApKOyYJosAcrMNdi3zva9sDp5AX28OtqHayu7A0Yjn6njqDWI/QgMejSG6atwEp2+jNvLHdi/9qn2VPe+eSQLbHo7No5U7KgvRqtlbG0e1IQZPbK6rIQTF9SqWJq/U5GBZRSSeBuXKTBRh9NaP6g0VPdA+harySOo+Vy2uEj4YsMblTwZWXGgM3Ue0wQpThrgSiK1Vx
+  - path: /var/lib/cloud/ansible/ansible.cfg
+    permissions: 0644
+    owner: root:root
+    content: |
+      [defaults]
+      roles_path = /var/lib/digitalrig/dr-scripts/roles
+      [ssh_connection]
+      pipelining=True
+  - path: /var/lib/cloud/scripts/self-initialise.sh
+    permissions: 0755
+    owner: root:root
+    content: |
+      #!/bin/sh
+      echo "This server is about to initialise itself. Stand back!"
+      echo "dr-scripts ref: ${dr-scripts-ref}"
+      echo "digitalrig-riglet ref: ${digitalrig-riglet-ref}"
+      echo "digitalrig-demo-ansible ref: ${platform-ref}"
+      mkdir /var/lib/digitalrig
+      ssh-agent bash -c 'ssh-add /var/lib/cloud/keys/bitbucket_key; ssh -o "StrictHostKeyChecking no" git@bitbucket.org'
+      ssh-agent bash -c 'ssh-add /var/lib/cloud/keys/bitbucket_key; git clone -b ${dr-scripts-ref} git@bitbucket.org:digitalrigbitbucketteam/dr-scripts.git /var/lib/digitalrig/dr-scripts'
+      ssh-agent bash -c 'ssh-add /var/lib/cloud/keys/bitbucket_key; git clone -b ${digitalrig-riglet-ref} git@bitbucket.org:digitalrigbitbucketteam/digitalrig-riglet.git /var/lib/digitalrig/digitalrig-riglet'
+      cd /var/lib/digitalrig/digitalrig-riglet
+      export ANSIBLE_CONFIG=/var/lib/cloud/ansible/ansible.cfg; ansible-playbook -i inventory/heart/inventory heart.yml \
+      --extra-vars 'dr_scripts_ref=${dr-scripts-ref} digitalrig_riglet_ref=${digitalrig-riglet-ref} platform_ref=${platform-ref} ansible_inventory=${ansible-inventory}'
+  - path: /var/lib/cloud/ansible/ansible-variables
+    permissions: 0755
+    owner: root:root
+    content: |
+
+      domain: '${ansible-domain}'
+      aws_region: '${region}'
+
+      subnets: ${subnets}
+      vpn_client_subnet: '10.8.0.0 255.255.255.0'
+
+      dns_server:
+        - '${aws_dns_1}'
+        - '${aws_dns_2}'
+        - '${aws_dns_3}'
+
+      ad_ips:
+        - '${aws_dns_1}'
+        - '${aws_dns_2}'
+      base_dn: '${base-dn}'
+
+      ad_domain: '${ad-domain}'
+      ad_krb_realm: '${ad-krb-realm}'
+      ad_password: '${ad-password}'
+
+      dr_scripts_ref: ${dr-scripts-ref}
+      digitalrig_riglet_ref: ${digitalrig-riglet-ref}
+      platform_ref: ${platform-ref}
+      ansible_inventory: ${ansible-inventory}
+
+  - path: /var/lib/cloud/scripts/ansible-pipeline.sh
+    permissions: 0755
+    owner: root:root
+    content: |
+      #!/bin/sh
+      su centos <<'EOF'
+      export log_path="$HOME/log"
+      export ANSIBLE_CONFIG="$HOME/digitalrig/ansible.cfg"
+      cd ~/digitalrig
+      mkdir -p "$log_path"
+      echo "Ansible execution logs are available in $log_path"
+      # everybody joins the domain
+      ansible-playbook --timeout=300 ad-client.yml  &> "$log_path/ansible-ad-client.log"
+      # execute hosts init in parallel to save some time
+      for module in ovpn nexus jenkins sonar mongodb couchdb ad-manager ; do echo $module ; done | \
+      xargs -I{} -P 8 bash -c 'ansible-playbook --timeout=300 {}.yml &> "$log_path/ansible-{}.log"'
+      EOF
+
+runcmd:
+#  - /var/lib/cloud/scripts/self-initialise.sh
+  - cat /var/lib/cloud/ansible/ansible-variables >> /home/centos/digitalrig/inventory/${ansible-inventory}/group_vars/all
+  - cat /var/lib/cloud/ansible/ansible-variables >> /home/centos/platform/inventory/${ansible-inventory}/group_vars/all
+#  - /var/lib/cloud/scripts/ansible-pipeline.sh

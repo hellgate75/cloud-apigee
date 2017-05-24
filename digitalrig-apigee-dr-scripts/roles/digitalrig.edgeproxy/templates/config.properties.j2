@@ -1,0 +1,62 @@
+zuul.debug.request: {{ edgeproxy_debug_requests|lower }}
+
+# yup, this is the port
+edgeproxy.port: {{ edgeproxy_port }}
+
+# (optional) domain to set on cookie; if blank, host is used; if set explicitly,
+# cookie will be used for specified domain and all subdomains on modern
+# browsers; on older browsers, same can be achieving by prefixing the domain
+# with a dot (e.g. '.mydomain.com')
+edgeproxy.cookie.domain: {{ edgeproxy_cookie_domain }}
+
+# file system path (absolute or relative) to dynamic Zuul filters
+edgeproxy.filter.root: {{ edgeproxy_filter_root }}
+
+# normally we demand SSL, this can be overriden for test
+# NOTE this setting should ALWAYS false for production
+edgeproxy.insecure.cookies: false
+
+# the following are used to encrypt bearer tokens, for more see
+# org.springframework.security.core.token.KeyBasedPersistenceTokenService
+edgeproxy.server.secret: {{ edgeproxy_server_secret }}
+edgeproxy.server.integer: {{ edgeproxy_server_integer }}
+
+# time to live for bearer tokens, upon expiry token cookies
+# will no longer be valid for authentication. Default 86400000 = 1 day
+edgeproxy.bearer.token.ttl.millis: {{ edgeproxy_token_ttl_millis }}
+
+# how long to cache valid bearer tokens for before revalidating
+edgeproxy.bearer.token.cache.ttl.sec: {{ edgeproxy_token_cache_ttl_sec }}
+
+# default urls, make sure that any changes are reflected in the login + other forms
+edgeproxy.login.url: /login
+edgeproxy.logout.url: /logout
+edgeproxy.error.url: /error
+
+# server thread pool sizes
+edgeproxy.thread.pool.min: 100
+edgeproxy.thread.pool.max: 1000
+
+# ant-style URL patterns to allow through without explicit authentication
+# - note that a trailing slash is required before ** for subpaths, e.g. "/myroute/**"
+# will match /myroute, /myroute/ and /myroute/something/somethingelse
+edgeproxy.anonymous.access.paths: \
+{% for path in edgeproxy_anonymous_access_paths %}
+    {{ path }}{% if not loop.last %}, \{% endif %}
+
+{% endfor %}
+
+# ant-style URL patterns to challenge with basic authentication
+# see note about path patterns above the anonymous setting, same applies here
+edgeproxy.basic.auth.paths.roles: \
+{% for path, role in edgeproxy_basic_auth_paths_roles.iteritems() %}
+    {{ path }} = {{ role }}{% if not loop.last %}, \{% endif %}
+
+{% endfor %}
+
+# inital test users, this should disappear in favour of using a data source
+edgeproxy.users: \
+{% for user in edgeproxy_users %}
+    {{ user.username }}, {{ user.password }}, {{ user.role }}{% if not loop.last %}; \{% endif %}
+
+{% endfor %}

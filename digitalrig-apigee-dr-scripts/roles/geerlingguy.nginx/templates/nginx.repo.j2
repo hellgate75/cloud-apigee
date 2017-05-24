@@ -1,0 +1,5 @@
+[nginx]
+name=nginx repo
+baseurl=http://nginx.org/packages/centos/{{ if ansible_distribution_major_version == 'NA' else ansible_distribution_major_version }}/$basearch/
+gpgcheck=0
+enabled=1

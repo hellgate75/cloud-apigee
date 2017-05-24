@@ -1,0 +1,44 @@
+# Joins the AWS Active Directory
+# fixme: should it be part of AMI mostly?
+
+- name: install AD-required packages
+  yum: name={{item}} state=present
+  with_items:
+    - sssd
+    - realmd
+    - krb5-workstation
+    - oddjob
+    - oddjob-mkhomedir
+    - adcli
+    - samba-common
+    - ntpdate
+    - ntp
+    - vim
+
+- name: enable services
+  service: name=ntpd.service enabled=yes state=started
+
+- name: join ad
+  shell: echo -n {{ password }} | adcli join --domain={{ domain }} --domain-realm={{ realm }} --login-user={{ ad_admin_name }}@{{ realm }} --verbose --stdin-password
+
+- name: Check realms list
+  shell: realm list
+  register: realms
+
+- name: generate ticket
+  shell: echo -n {{ password }} | kinit {{ ad_admin_name }}@{{ realm }}
+
+- name: join realm
+  shell: echo -n {{ password }} | realm join -v {{ domain }}
+  when: '"domain-name: {{ domain }}" not in realms.stdout'
+
+- name: change configuration of sssd
+  command: sed -i 's/use_fully_qualified_names = True/use_fully_qualified_names = False/g' /etc/sssd/sssd.conf
+  # todo: do we need it at all?
+  ignore_errors: true
+  notify: Restart sssd
+
+# todo: duplicates common-cloud
+- name: Disallow password authentication
+  action: lineinfile dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication" line="PasswordAuthentication no" state=present
+  notify: Restart sshd

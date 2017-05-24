@@ -1,0 +1,26 @@
+# Ansible EC2 external inventory script settings
+
+[ec2]
+
+regions = {{ region }}
+regions_exclude = 
+# This is the normal destination variable to use. If you are running Ansible
+# from outside EC2, then 'public_dns_name' makes the most sense. If you are
+# running Ansible from within EC2, then perhaps you want to use the internal
+# address, and should set this to 'private_dns_name'. The key of an EC2 tag
+# may optionally be used; however the boto instance variables hold precedence
+# in the event of a collision.
+destination_variable = private_dns_name
+
+vpc_destination_variable = private_ip_address
+cache_path = ~/.ansible/tmp
+cache_max_age = 300
+replace_dash_in_groups = False
+expand_csv_tags = True
+instance_filters = vpc-id={{ riglet_vpc_id }}
+
+[credentials]
+
+# aws_access_key_id = AXXXXXXXXXXXXXX
+# aws_secret_access_key = XXXXXXXXXXXXXXXXXXX
+# aws_security_token = XXXXXXXXXXXXXXXXXXXXXXXXXXXX

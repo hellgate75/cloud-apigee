@@ -1,0 +1,2 @@
+bucket: "terraform-state-{{ region }}"
+terraform_scripts_dir: ../terraform

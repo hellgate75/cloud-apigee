@@ -1,0 +1,19 @@
+- name: Add Docker yum repo
+  template: src=docker.repo.j2 dest=/etc/yum.repos.d/docker.repo
+
+- name: Install docker-engine
+  yum: pkg={{item}} state=installed
+  with_items:
+    - docker-engine
+
+- name: configure insecure private docker registry access
+  template: src=docker.j2 dest=/etc/sysconfig/docker backup=yes
+
+- name: ensure docker login config location exists
+  file: path=~/.docker/ state=directory
+
+- name: configure login for private docker registry access
+  template: src=config.json.j2 dest=~/.docker/config.json
+
+- name: ensure docker restarted
+  service: name=docker state=restarted enabled=yes

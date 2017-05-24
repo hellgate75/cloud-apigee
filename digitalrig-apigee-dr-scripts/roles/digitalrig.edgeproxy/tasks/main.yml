@@ -1,0 +1,28 @@
+- name: create group
+  group: name={{ edgeproxy_group }} state=present
+
+- name: create user
+  user: name={{ edgeproxy_user }} group={{ edgeproxy_group }} state=present
+
+- name: ensure directories created
+  file: path={{ item }}  state=directory owner=edgeproxy group=edgeproxy
+  with_items:
+    - "{{ edgeproxy_etc_dir }}"
+    - "{{ edgeproxy_etc_dir }}/filters/pre"
+    - "{{ edgeproxy_etc_dir }}/filters/route"
+    - "{{ edgeproxy_etc_dir }}/filters/post"
+    - "{{ edgeproxy_lib_dir }}"
+    - "{{ edgeproxy_log_dir }}"
+
+- name: add configuration file
+  template: src=config.properties.j2 dest=/etc/edgeproxy/config.properties owner=edgeproxy group=edgeproxy mode=600
+
+- name: add paas apps edgeproxy configurations
+  template: src=paas-apps-prefilter.conf.j2 dest={{ edgeproxy_etc_dir }}/filters/pre/paas-apps-prefilter.conf owner=edgeproxy group=edgeproxy mode=644
+
+- name: install app package
+  yum: pkg="{{ edgeproxy_package }}" state=latest enablerepo=digitalrig
+  notify: restart edgeproxy
+
+- name: ensure running
+  service: name=edgeproxy state=started enabled=true

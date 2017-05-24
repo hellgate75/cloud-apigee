@@ -1,0 +1,46 @@
+- hosts: ovpn
+  become: yes
+
+  tasks:
+
+    - name: Start iptables
+      service: name=iptables.service state=started enabled=yes
+
+    - name: download knockd rpm
+      get_url:
+        url: http://li.nux.ro/download/nux/misc/el7/x86_64/knock-server-0.7-1.el7.nux.x86_64.rpm
+        dest: /tmp/knockd.rpm
+        force: Yes
+    - name: install knockd
+      yum: name=/tmp/knockd.rpm state=installed
+
+    - name: Configure knockd
+      template: src=knockd.conf.j2 dest=/etc/knockd.conf
+
+    - name: restart knockd
+      service: name=knockd state=restarted enabled=Yes
+
+    - name: Install iptables-services
+      yum: name=iptables-services
+
+    - name: Start iptables
+      service: name=iptables state=started enabled=Yes
+
+    - name: Check iptables state
+      shell: iptables -S | grep -- '-A INPUT -p tcp -m tcp --dport 22 -j REJECT'
+      register: rule_check
+      ignore_errors: true
+
+    - name: Close secured ports by default and save (need to combine)
+      shell: iptables -I INPUT -p tcp --dport 22 -j REJECT --reject-with icmp-host-prohibited && iptables -I INPUT -i lo  -p tcp -m tcp --dport 22 -j ACCEPT && iptables -I INPUT -i {{ knockd_open_interface }}  -p tcp -m tcp --dport 22 -j ACCEPT && service iptables save
+      when: rule_check|failed
+
+    # TODO: add ssh port check (should be closed)
+
+    # knocking to allow next ansible steps
+    - name: knock-knock
+      become: false
+      local_action: command knock -d 20 {{ ssh_jump_host }} {{ knock_open | join(" ") }}
+      #when: rule_check|failed
+
+    # TODO: add ssh port check (is it open now?)

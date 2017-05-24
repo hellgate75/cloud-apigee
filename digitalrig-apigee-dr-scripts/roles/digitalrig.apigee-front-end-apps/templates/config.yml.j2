@@ -1,0 +1,19 @@
+version: 0.1
+log:
+  fields:
+    service: registry
+storage:
+    cache:
+        blobdescriptor: inmemory
+    s3:
+        region: {{region}}
+        bucket: {{ docker_registry_s3_bucket_name }}
+        encrypt: true
+        secure: true
+        v4auth: true
+        chunksize: 5242880
+        rootdirectory: {{ docker_registry_storage_path}}
+http:
+    addr: :5000
+    headers:
+        X-Content-Type-Options: [nosniff]

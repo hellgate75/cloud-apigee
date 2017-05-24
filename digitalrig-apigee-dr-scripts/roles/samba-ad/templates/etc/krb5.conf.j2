@@ -1,0 +1,11 @@
+[libdefaults]
+        default_realm = {{ samba_ad_info.kerberos_realm|upper }}
+        dns_lookup_realm = true
+        dns_lookup_kdc = true
+
+[realms]
+    {{ samba_ad_info.kerberos_realm|upper }} = {
+        kdc = localhost:88
+        admin_server = localhost
+        default_domain = {{ samba_ad_info.kerberos_realm|lower }}
+    }

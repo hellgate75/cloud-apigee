@@ -1,0 +1,28 @@
+- hosts: ovpn
+  become: yes
+  roles:
+    #- newrelic-server
+    - { role: nickjj.fail2ban,
+                  fail2ban_services: [
+                    { name: ssh,
+                      enabled: "true",
+                      port: ssh,
+                      filter: sshd,
+                      logpath: "%(sshd_log)s" }]
+      }
+    - { role: openvpn-server,
+        subnets: "{{ vpn_subnets }}",
+        client_subnet: "{{ vpn_client_subnet }}"
+      }
+  tasks:
+    - name: Retrieve OpenVPN config
+      fetch:
+        src: "./{{ openvpn_config_name }}"
+        dest: "./tmp/"
+        flat: yes
+        fail_on_missing: yes
+
+    - name: Remove remote config file
+      file:
+        path: "./{{ openvpn_config_name }}"
+        state: absent

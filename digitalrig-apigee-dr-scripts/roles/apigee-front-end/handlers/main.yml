@@ -1,0 +1,8 @@
+- name: Restart sssd
+  service: name=sssd state=restarted
+
+- name: Restart sshd
+  service: name=sshd state=restarted
+
+- name: Restart docker
+  service: name=docker state=restarted

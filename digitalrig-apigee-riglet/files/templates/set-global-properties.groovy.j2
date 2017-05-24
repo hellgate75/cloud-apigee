@@ -1,0 +1,28 @@
+import jenkins.plugins.git.GitSCMSource
+import org.jenkinsci.plugins.workflow.libs.GlobalLibraries
+import org.jenkinsci.plugins.workflow.libs.LibraryConfiguration
+import org.jenkinsci.plugins.workflow.libs.SCMSourceRetriever
+
+instance = Jenkins.getInstance();
+
+globalNodeProperties = instance.getGlobalNodeProperties();
+envVarsNodePropertyList = globalNodeProperties.getAll(hudson.slaves.EnvironmentVariablesNodeProperty.class);
+
+newEnvVarsNodeProperty = null;
+envVars = null;
+
+if (envVarsNodePropertyList == null || envVarsNodePropertyList.size() == 0 ) {
+  newEnvVarsNodeProperty = new hudson.slaves.EnvironmentVariablesNodeProperty();
+  globalNodeProperties.add(newEnvVarsNodeProperty);
+  envVars = newEnvVarsNodeProperty.getEnvVars();
+} else {
+  envVars = envVarsNodePropertyList.get(0).getEnvVars();
+}
+
+envVars.put("MAVEN_OPTS", "-Dsonar.host.url=http://sonar.{{ riglet_domain }}:{{ sonar_application_port }}/sonar -Dsonar.jdbc.url=jdbc:postgresql://{{ sonar_db_host }}/{{ sonar_database }} -Dsonar.jdbc.driver=org.postgresql.Driver -Dsonar.jdbc.username={{ sonar_database_user }} -Dsonar.jdbc.password={{ sonar_database_password }}");
+envVars.put("BASH_ENV", "~/.bashrc");
+envVars.put("AWS_REGION", "{{ aws_region }}");
+envVars.put("RIG_DOMAIN", "{{ riglet_domain }}");
+envVars.put("USE_GLOBAL_LIB", "true");
+
+instance.save();

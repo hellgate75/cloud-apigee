@@ -1,0 +1,31 @@
+- hosts: localhost
+  tasks:
+  - name: write TF
+    command: terraform output -state={{tf_config_path}}/.terraform/terraform.tfstate {{ item }}
+    with_items: "{{ tf_outputs }}"
+    register: tf_output_results
+
+  - name: make sure tmp dir exists
+    file: path=./tmp state=directory
+
+  - name: write ansible variable file
+    template: src=_tf_outputs.j2 dest=./tmp/_tf_outputs.yml
+
+  - name: Include just generated vars file
+    include_vars: file=./tmp/_tf_outputs.yml
+
+  - name: write ansible inventory configuration
+    template: src=ec2.ini.j2 dest=./tmp/ec2.ini
+    register: ec2_ini
+
+  - name: refresh ec2 cache
+    command: ./ec2/inventory/ec2.py --list --refresh-cache
+    register: ec2_inventory
+    when: ec2_ini | changed
+
+  - name: print TF output
+    debug: msg={{ ec2_inventory.stdout.split('\n') }}
+    when: ec2_ini | changed
+
+  - name: show jump host information
+    debug: msg="please make sure you are able to execute 'ssh {{ ssh_jump_host }}'"

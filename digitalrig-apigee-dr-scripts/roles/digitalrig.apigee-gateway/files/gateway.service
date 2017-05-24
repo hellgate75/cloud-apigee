@@ -1,0 +1,13 @@
+[Unit]
+Description=Gateway Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/local/bin/gateway --config-dir /root/gateway
+Restart=on-abort
+
+
+[Install]
+WantedBy=multi-user.target

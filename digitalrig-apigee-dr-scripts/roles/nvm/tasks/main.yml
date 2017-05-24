@@ -1,0 +1,12 @@
+- name: Download & Install NVM
+  get_url: url=https://raw.githubusercontent.com/creationix/nvm/{{nvm_version}}/install.sh
+           dest=/tmp/nvm-install.sh
+
+- name: Install NVM
+  shell: . /tmp/nvm-install.sh
+
+- name: Install node version
+  shell: . ~/.nvm/nvm.sh && nvm install {{node_version}}
+
+- name: configure node
+  shell: source ~/.bashrc

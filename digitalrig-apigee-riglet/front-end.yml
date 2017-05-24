@@ -1,0 +1,12 @@
+- hosts: front-end
+  become: yes
+  become_user: root
+  roles:
+    - role: digitalrig.apigee-docker
+      domain: "{{ riglet_domain }}"
+    - role: apigee-front-end
+      domain: "{{ riglet_domain }}"
+    - role: nvm
+      domain: "{{ riglet_domain }}"
+    - role: digitalrig.apigee-front-end-apps
+      domain: "{{ riglet_domain }}"

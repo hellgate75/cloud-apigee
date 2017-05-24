@@ -1,0 +1,25 @@
+# edgeproxy_version: 0.0-1
+# edgeproxy_package: digitalrig-edgeproxy-{{ edgeproxy_version }}
+edgeproxy_package: digitalrig-edgeproxy
+
+edgeproxy_user: edgeproxy
+edgeproxy_group: edgeproxy
+edgeproxy_etc_dir: /etc/edgeproxy
+edgeproxy_lib_dir: /var/lib/edgeproxy
+edgeproxy_log_dir: /var/log/edgeproxy
+
+edgeproxy_port: 8080
+edgeproxy_debug_requests: false
+edgeproxy_cookie_domain:
+edgeproxy_token_ttl_millis: 86400000
+edgeproxy_token_cache_ttl_sec: 60
+edgeproxy_filter_root: "{{ edgeproxy_etc_dir }}/filters/"
+edgeproxy_anonymous_access_paths: []    # list of ant-style paths
+edgeproxy_basic_auth_paths_roles: {}    # dict of ant-style paths each with required role
+
+# edgeproxy_server_secret: set by consumers
+# edgeproxy_server_integer: ditto
+
+# each user is a dict with username, password, role; the role 'ROLE_INTERNAL' is special and denotes users allowed through to
+# internal resources guarded by the proxy
+edgeproxy_users: []

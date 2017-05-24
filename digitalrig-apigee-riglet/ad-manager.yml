@@ -1,0 +1,8 @@
+- hosts: windows
+  roles:
+    - { role: ad-manager,
+        ad_user: "{{ ad_admin_name }}",
+        ad_pass: "{{ ad_password }}",
+        active_directory_domain: "{{ ad_domain }}",
+        active_directory_ip_addresses: "{{ ad_ips }}"
+      }

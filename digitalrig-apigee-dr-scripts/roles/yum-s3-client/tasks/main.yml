@@ -1,0 +1,9 @@
+- name: install s3 iam plugin
+  copy: src=s3iam.py dest=/usr/lib/yum-plugins/ owner=root group=root mode=644
+
+- name: install s3 iam conf
+  copy: src=s3iam.conf dest=/etc/yum/pluginconf.d/ owner=root group=root mode=644
+
+- name: install repo files
+  template: src=s3iam.repo.j2 dest=/etc/yum.repos.d/{{ item.name }}.repo owner=root group=root mode=644
+  with_items: yum_s3_repos

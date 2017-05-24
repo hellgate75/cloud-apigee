@@ -1,0 +1,21 @@
+client
+dev tun
+proto tcp
+
+remote ovpn.ext.{{ ansible_domain }}.{{ route_53_domain_name }} 443
+
+resolv-retry 30
+nobind
+persist-key
+persist-tun
+mute-replay-warnings
+ns-cert-type server
+comp-lzo
+verb 3
+
+auth-user-pass
+auth-nocache
+
+<ca>
+{{ openvpn_cert }}
+</ca>

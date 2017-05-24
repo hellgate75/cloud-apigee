@@ -1,0 +1,9 @@
+- name: Stop running instances
+  hosts: all
+  connection: local
+  tasks:
+    - name: Stop instances that were previously launched
+      ec2:
+        state: 'stopped'
+        region: '{{ aws_region }}'
+        instance_ids: '{{ ec2 }}'

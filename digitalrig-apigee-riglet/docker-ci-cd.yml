@@ -1,0 +1,10 @@
+- hosts: docker-ci-cd
+  become: yes
+  become_user: root
+  roles:
+    - role: digitalrig.apigee-docker
+      domain: "{{ riglet_domain }}"
+    - role: apigee-front-end
+      domain: "{{ riglet_domain }}"
+    - role: digitalrig.apigee-jenkins
+      domain: "{{ riglet_domain }}"

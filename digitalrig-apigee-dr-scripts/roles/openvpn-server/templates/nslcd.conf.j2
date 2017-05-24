@@ -1,0 +1,78 @@
+# This is the configuration file for the LDAP nameservice
+# switch library's nslcd daemon. It configures the mapping
+# between NSS names (see /etc/nsswitch.conf) and LDAP
+# information in the directory.
+# See the manual page nslcd.conf(5) for more information.
+
+# The user and group nslcd should run as.
+uid nslcd
+gid ldap
+
+# The uri pointing to the LDAP server to use for name lookups.
+# Multiple entries may be specified. The address that is used
+# here should be resolvable without using LDAP (obviously).
+{% for entry in ad_ips %}
+uri ldap://{{entry}}
+{% endfor %}
+
+# The LDAP version to use (defaults to 3
+# if supported by client library)
+ldap_version 3
+
+# The distinguished name of the search base.
+base {{base_dn}}
+
+# The distinguished name to bind to the server with.
+# Optional: default is to bind anonymously.
+binddn CN=Administrator,CN=Users,{{base_dn}}
+
+# The credentials to bind with.
+# Optional: default is no credentials.
+# Note that if you set a bindpw you should check the permissions of this file.
+bindpw {{ad_password}}
+
+# The distinguished name to perform password modifications by root by.
+#rootpwmoddn cn=admin,dc=example,dc=com
+
+# Bind/connect timelimit.
+bind_timelimit 30
+
+# Search timelimit.
+timelimit 30
+
+# Idle timelimit. nslcd will close connections if the
+# server has not been contacted for the number of seconds.
+#idle_timelimit 3600
+
+# Use StartTLS without verifying the server certificate.
+#ssl start_tls
+#tls_reqcert never
+
+# CA certificates for server certificate verification
+#tls_cacertdir /etc/ssl/certs
+#tls_cacertfile /etc/ssl/ca.cert
+
+# Seed the PRNG if /dev/urandom is not provided
+#tls_randfile /var/run/egd-pool
+
+# SSL cipher suite
+# See man ciphers for syntax
+#tls_ciphers TLSv1
+
+# Client certificate and key
+# Use these, if your server requires client authentication.
+#tls_cert
+#tls_key
+
+# Mappings for Active Directory
+#pagesize 1000
+#referrals off
+#idle_timelimit 800
+filter passwd (&(objectClass=user)(!(objectClass=computer)))
+map    passwd uid              sAMAccountName
+map    passwd homeDirectory    unixHomeDirectory
+map    passwd gecos            displayName
+filter shadow (&(objectClass=user)(!(objectClass=computer)))
+map    shadow uid              sAMAccountName
+map    shadow shadowLastChange pwdLastSet
+filter group  (objectClass=group)

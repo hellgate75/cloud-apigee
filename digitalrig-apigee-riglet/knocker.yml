@@ -1,0 +1,7 @@
+- hosts: localhost
+  roles:
+    - { role: knocker,
+        target_host: "{{ ssh_jump_host }}",
+        user: "{{ansible_user}}",
+        knock_open_seq: "{{ knock_open }}"
+      }

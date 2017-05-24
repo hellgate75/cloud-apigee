@@ -1,0 +1,6 @@
+# in case knockd is already running
+- include: ../knocker.yml
+- include: ../ad-client.yml
+- include: ../ovpn.yml
+- include: ../knockd.yml
+- include: ../knocker.yml

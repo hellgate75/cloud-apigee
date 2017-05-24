@@ -1,0 +1,91 @@
+---
+- name: Install epel-release
+  yum: name=epel-release state=installed
+
+- name: Install openvpn
+  yum: name=openvpn state=installed
+
+- name: Install easyrsa
+  yum: name=easy-rsa state=installed
+
+- name: Enable ip forwarding
+  sysctl: name="net.ipv4.ip_forward" value=1 sysctl_set=yes state=present reload=yes sysctl_file=/etc/sysctl.d/51-ip_forward.conf
+  
+- name: Create certificate directory
+  file:
+    path: "{{ openvpn_dir }}"
+    state: directory
+    recurse: yes
+
+- name: Create sym-links in certificate directory
+  file:
+    src: "{{ easyrsa_dir }}/{{ item }}"
+    dest: "{{ openvpn_dir }}/{{ item }}"
+    state: link
+  with_items:
+    - [ clean-all, pkitool, build-dh, whichopensslcnf ]
+
+- name: Copy EasyRSA openSSL config
+  copy: src="{{ easyrsa_dir }}/{{ item }}" dest="{{ openvpn_dir }}/{{ item }}" remote_src=True
+  with_items:
+    - [ openssl-0.9.6.cnf, openssl-0.9.8.cnf, openssl-1.0.0.cnf ]
+
+- name: Copy EasyRSA vars
+  template: src=vars.j2 dest="{{ openvpn_dir }}/vars"
+  
+- name: Create keys dir
+  file:
+    path: "{{ openvpn_keys_dir }}"
+    state: directory
+
+- name: Clear old keys
+  shell: ". {{ openvpn_vars }} && {{ openvpn_dir }}/clean-all"
+    
+- name: Create root CA
+  shell: ". {{ openvpn_vars }} && {{ openvpn_dir }}/pkitool --initca"
+
+- name: Build key server
+  shell: ". {{ openvpn_vars }} && {{ openvpn_dir }}/pkitool --server {{ key_name }}"
+
+- name: Build Diffie-Hellman keys
+  shell: ". {{ openvpn_vars }} && {{ openvpn_dir }}/build-dh"
+  notify: Restart OpenVPN
+
+- name: Store certificate to variable for template
+  shell: "cat {{ openvpn_keys_dir }}/ca.crt"
+  register: openvpn_cert_output
+
+- set_fact:
+    openvpn_cert: "{{ openvpn_cert_output.stdout }}"
+  
+- name: Generate OpenVPN config
+  template: src=riglet.ovpn.j2 dest="./{{ openvpn_config_name }}"
+
+- name: Install the openvpn server configuration
+  template: src=openvpn_server.conf.j2 dest=/etc/openvpn/server.conf
+  notify: Restart OpenVPN
+
+- name: Install iptables-services
+  yum: name=iptables-services
+
+- name: iptables config
+  template: src=iptables.j2 dest=/etc/sysconfig/iptables
+  notify: Reload iptables
+
+- name: Start iptables
+  service: name=iptables.service state=started enabled=yes
+
+- name: Install PAM LDAP
+  yum: name=nss-pam-ldapd state=installed
+
+- name: Configure PAM LDAP
+  copy: src=pam.d-openvpn dest=/etc/pam.d/openvpn owner=root group=root
+
+- name: Configure nslcd
+  template: src=nslcd.conf.j2 dest=/etc/nslcd.conf
+
+- name: Start the nslcd
+  service: name=nslcd state=restarted enabled=yes
+
+- name: Start the openvpn service
+  service: name=openvpn@server state=started enabled=yes

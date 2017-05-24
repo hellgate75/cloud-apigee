@@ -1,0 +1,7 @@
+#cloud-config
+
+hostname: REPLACE_HOSTNAME
+fqdn: REPLACE_HOSTNAME.${ad-domain}
+
+# Set our hostname in /etc/hosts too
+manage_etc_hosts: true

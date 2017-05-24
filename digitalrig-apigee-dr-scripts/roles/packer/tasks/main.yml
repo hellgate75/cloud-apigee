@@ -1,0 +1,11 @@
+- name: Download packer
+  get_url: url={{ packer_download_url }} dest={{ packer_download_dest }}
+
+- name: Create target installation directory
+  file: state=directory  path={{ packer_extracted_dir }}
+
+- name: Unzip packer
+  unarchive: copy=no src={{ packer_download_dest }} dest={{ packer_extracted_dir }}
+
+- name: Add packer to the PATH for all users
+  copy: owner=root group=root mode=0644 dest=/etc/profile.d/packer.sh content="export PATH={{ packer_extracted_dir }}:$PATH"

@@ -1,0 +1,75 @@
+- name: install front-end server required packages
+  yum: name={{item}} state=present
+  with_items:
+    - openssl
+
+- name: install recent six (from centos 7 we get 1.3.0 but need newer for docker-py)
+  pip: name=six state=present version=1.9.0
+
+- name: install docker-py
+  pip: name=docker-py state=present
+
+- name: ensure docker running
+  service: name=docker state=restarted enabled=yes
+
+- name: Define Edge Micro Keys and Certificates Shell Script
+  template: src=get-edgemicro-keys.sh.j2 dest=/root/get-edgemicro-keys.sh mode=777 owner=root
+
+# - name: Create Edge Micro Keys and Certificates
+#   shell: /root/get-edgemicro-keys.sh
+#   args:
+#     chdir: /root
+#     create: /root/.ssh/cert.pem
+
+- name: Ensure that Nginx config directory exists
+  file: path=/root/nginx state=directory mode=0777
+
+- name: Copy docker registry configuraton
+  template: src=config.yml.j2 dest=/root/nginx/config.yml
+
+- name: Copy docker registry web ui configuraton
+  template: src=config-web.yml.j2 dest=/root/nginx/config-web.yml
+
+- name: Copy Nginx files
+  copy: src={{ item }} dest=/root/nginx/
+  with_items:
+    - directory.html
+    - docker-registry.htpasswd
+
+- name: Define Nginx dynamic config
+  template: src="ngnix-config.conf.j2" dest=/root/nginx/apigee-config.conf
+
+- name: Ensure that Nginx ssl configuration directory exists
+  file: path=/root/ssl state=directory mode=0777
+
+- name: create self-signed SSL cert
+  command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN=front-end" -days 3650 -keyout /root/ssl/server.key -out /root/ssl/server.pem -extensions v3_ca creates=/root/ssl/server.pem
+
+- name: Save APIGee certificate
+  copy: content="{{ apigee_custom_x509_certificate }}" dest="/root/ssl/apigee.crt"
+  when: apigee_custom_x509_certificate != ""
+
+- name: Save APIGee certificate key
+  copy: content="{{ apigee_custom_x509_certificate_key }}" dest="/root/ssl/apigee.key"
+  when: apigee_custom_x509_certificate_key != ""
+
+- name: ensure Docker Registry Web UI data dir
+  file: name="/root/nginx/data" state=directory owner=root group=root
+
+- name: ensure Docker Compose common dir
+  file: name="/usr/share/compose-scripts" state=directory owner=root group=root
+
+- name: ensure Docker Compose registry dir
+  file: name="/usr/share/compose-scripts/registry" state=directory owner=root group=root
+
+- name: Stop NewRelic
+  shell: /etc/init.d/newrelic-sysmond stop && systemctl disable newrelic-sysmond.service
+
+- name: Copy Nginx files
+  template: src=docker-compose.yml.j2 dest=/usr/share/compose-scripts/registry/docker-compose.yml
+
+- name: start Docker Registry, Registy UI, Nginx and APIGee Micro-Edge machine
+  become: yes
+  shell: docker-compose up -d --remove-orphans
+  args:
+    chdir: /usr/share/compose-scripts/registry/

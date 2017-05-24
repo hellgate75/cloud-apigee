@@ -1,0 +1,203 @@
+#################################
+# MORE OR LESS FIXED VARS
+# TODO: should be split into modules
+
+# host to use as ssh proxy
+ssh_jump_host: ovpn.ext.{{ ansible_domain }}.{{ route_53_domain_name }}
+
+##### RANCHER #####
+
+root_private_key: |
+    -----BEGIN RSA PRIVATE KEY-----
+    MIIEpQIBAAKCAQEA63GZqChD28SwFtQBlEbeaueeq2xPfwDu9szLkJRmXzZSPMCp
+    fXK8XH5GIctXATf54F5oehUTI41w3JJYVNstyKN8mH/qRmimd0ABy1KyWiU6l5rG
+    VCmt0ITwINI7gG1S6XNSWF543RYB/a71D3XsvfKt+KPFoR+dc9iFyMdS9tSiPN9K
+    87pAx8GS9NurG/XKNqYCkevw0FygKEAK0PUNAm95S0fk6/0tNTU/Wpz2x2fmN5mF
+    CvJVYkKlVsq1WIXnRO4qMqHt5LQCi6nYudSWgIjKjId2d0NWxxM/CNMNe3QYVnh5
+    wdY9WsA0G4MnvpPQPNGgb2dMvmO/W+QBofmcAQIDAQABAoIBAD7nvSwmherj5EBV
+    KI7bWHWrqMMYTy0ZrL8X/JOGcsuhkdtVhnNUAmub+VTyJS7YK9T8pGFp3BE1qx/j
+    oeIaJWNj+tgr5QYm08MswM34LFrVc5Ap9C9sa1o5CodaZDdt/icNfsTJiPVY+fMz
+    mZol4bjmbADwkM75yXG4OhZo2wvDRMv4iFojreU6DBc9fY2LE3vOMr9ieCEVOZlj
+    fr5wQ0MouV47A2oDWF3MgasaJ6nsFj9nVQxt/oBarhLzqmsguUfBtnlT5+vhy4xI
+    k2jTpgoNSHRcr2pq8/PJAA5hcFPh4kzRs4X6A056SPRsLEGwzUt09Y9f4v6ol94a
+    Vb8E0iECgYEA/XHbbvqA50tM2KynKRxF2+KFg0nu74XDwdPFVi5KquMVoO5DN2KR
+    7GsR5p4vams25/CUB66AfI5N1qnLK8QvJsoM+LDK30V7mHRs28uf03IufQDKciVO
+    uR2OXlIRKDRcXN2iGcLHq0vxqog1KKVyPdVI53YzROHfrjMy96So8lUCgYEA7dFI
+    RvRXJSHtrRNnK32O38/+e4Pp1Jbdmk7KacBq6BxPZgxtEkjJV99xC9bkoiSjYR4X
+    Sl6I53FtkGYnBW4p1SVduZsvm65QBRBda45IMbTMmKtykvBYd28kJxrL2zMeTwnI
+    PzF5ZXWBUlvvoK7MJWvqmsrdgLu+TmhQ1xdjpv0CgYEA9iW4eqZsvzaQ4fd9Oh4t
+    cwsjpIkPuC1wHDWy+Kpo9mMqRGxjd80R8E1ky1hisLaEUuuCuZsvSsliq9OocU9O
+    hBvEUVxTDFmNWlnox+eRyGii4eD8vbOiK4ObG9wUsbl44vCWWPKlvaY6hedXyaw1
+    sfwNnE9eJ84/0g4DuCSBuSkCgYEAr7f7V7Ii0eUH4OJ9UL0tXGIq/sixdcsjYmjl
+    Vs4+L9L7N8Pms6PkYXFP7heSR9wafB/nxaOkNJ6y/gb8vh5v+nXpksL/omBh79vv
+    qxEudsvIgOXtenTsaRNN+zbpecWDl5L6yvabZEQ2kcwseuWtIdljN4y9rekK7JRX
+    ZxZ5I2ECgYEAqbGylfcd5m19oMUe0tcmlGmTL/2gZQELafiVbqxgzKgs9K0hKD7P
+    oNAre8sgl0NLxwFYoGQpZ8ehivJQibaY34dLEAR0IA/ZpanF26zIbIt4uvfJrKj9
+    BTkCLkAZu4BobZT1wbBqwDIfJXCdFbcGfkDPjmmM4FVyJp3meqCHI6g=
+    -----END RSA PRIVATE KEY-----
+root_public_key: |
+    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDrcZmoKEPbxLAW1AGURt5q556rbE9/AO72zMuQlGZfNlI8wKl9crxcfkYhy1cBN/ngXmh6FRMjjXDcklhU2y3Io3yYf+pGaKZ3QAHLUrJaJTqXmsZUKa3QhPAg0juAbVLpc1JYXnjdFgH9rvUPdey98q34o8WhH51z2IXIx1L21KI830rzukDHwZL026sb9co2pgKR6/DQXKAoQArQ9Q0Cb3lLR+Tr/S01NT9anPbHZ+Y3mYUK8lViQqVWyrVYhedE7ioyoe3ktAKLqdi51JaAiMqMh3Z3Q1bHEz8I0w17dBhWeHnB1j1awDQbgye+k9A80aBvZ0y+Y79b5AGh+ZwB root@ip-172-31-21-41
+ubuntu_private_key: |
+    -----BEGIN RSA PRIVATE KEY-----
+    MIIEogIBAAKCAQEAoOhglRcCgxSiexIHZVtTVsZ7L9eYVCWIv9AyuU7uvH79c5HG
+    US0txMsFTy6FSPxJ9TXEAP4ayvqqA0oHkYNofX35rKJPuFhEKtvUWW3AkN3ufRRI
+    gmh6hbqpV84Lq/fFLg4YlTLhK4wkIC03DUjd3KmNSir7vnWdX/3lWwrhW4K9PpEP
+    f37U5x/V9PGYk9RAksHT+yrh1X8b3aQ375W+x1Sk2Bt8UxIgGeoLTDRP/0hSFihK
+    Rrq66J+LA6VrBUxUs6CE52sR7iKt2ElNAyIQlHFtzcgsP6RYM/MpDAqr+Y1HYCOb
+    ajvl7COR8Yz0rO+41LGygjxfDQBjTVmZOlQsVwIDAQABAoIBAGMZm1pXWJG4pLVd
+    jjaLf5FjHr2Bb+zrTQStyn+8sGZhY+HItzaJt7WLQFLbGPWxhC9ElNnzpja7GPh7
+    oJurLjCT5LDBKo4jtqAa0fbeFIpkVRyt4FaI2GUCaIeOfDvGlqddwSAqvOlgH2O9
+    1TkWVqYvurgiLvfHYkybh6WB1vfPXD/pMAtJiqwAbLDM19EQlkJXN0Rm90uVLoRX
+    tDpJgEP2uKGgVGfAsQtFSQBupA+tQ/XANCbsXbW5mClo7aAJ2puBrZWjOLh1GboO
+    MtH9M7jKgcA/YfVvt16zvZ7AtMRrl8Na0bwsRfFlyIXPX4xNSqXb9YEfVkeBRDyl
+    fNYvY4ECgYEA1aRe909HKt2o8qVZZHc7LqTKVQIqQiF2C3fVh7sVwpbFrxZ+/2K7
+    IH6JNs84fs38oLPh5amnq4NGqSKDzOUDSZ9hWkT8aX+TymAbXOS29xE5kHVlmxrM
+    O4d0+AW80+aeANrF0SLavTIndSJvEbYsTFKATR0fycoqjYn5fgdEx8ECgYEAwM9r
+    Lt9L/fNMBXULFI8DVeom5uIhTvED1LZEJY8xNv5tiBMBDBmT6Z4xM/GauvKV+/bt
+    l9WWsyncCDaOnmFJNd6H4c7+2EGD6JsYVh3l7EJgw3t6Fvu4y1ROkgXWyWjQveYU
+    HaM5cSWHbL7Ue7RlprMTn1HqAYCQFRyvYjsEuhcCgYA3QTnmkLSBW670gttp5oSB
+    /dDux46SaAEV2jp5zmNEXqZmMFVMTAbF0rQ+Xr3n3fK2xY9pTMW20E8YM3sPJTQC
+    eJw/MpRt3LcmolCxZ94CbIwM1rAeu4GS6+fOtf0uePjok6yR+IfGYxBddThwxkMS
+    wku4pg2wrP7weHz0oYCigQKBgHCYsH8u57Hl4v9M2qum2MvTceRjKhBvr00JI8LL
+    XHJBIrXUY0gtp7NGLnWnIjUKdYwvJ5EDqn32dAhX0/Gp3pcW3UOBHlIr8FxmNlAU
+    JbFTEi8WbLX/SmtzUG71+fikvUIompa0O1dYEz3uMygKsVIoQc1IiN9XtMyfc8xp
+    qtkBAoGAf5WAuNJemrgPu9t2M3jYkJFSZDAtL8fjBX33KTDo1uEegSeweXigzqCj
+    XbNuZeyODR8Rnshlrt2VIwQn9MKdLee2dbhZCuB6kg+15biDvO92lxMMHlgL+HC5
+    uSucRmAjvH1q8v67bKr/10nGfnsJjph+aQNd933VVsIbQxhhQgM=
+    -----END RSA PRIVATE KEY-----
+ubuntu_public_key: |
+    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCg6GCVFwKDFKJ7EgdlW1NWxnsv15hUJYi/0DK5Tu68fv1zkcZRLS3EywVPLoVI/En1NcQA/hrK+qoDSgeRg2h9ffmsok+4WEQq29RZbcCQ3e59FEiCaHqFuqlXzgur98UuDhiVMuErjCQgLTcNSN3cqY1KKvu+dZ1f/eVbCuFbgr0+kQ9/ftTnH9X08ZiT1ECSwdP7KuHVfxvdpDfvlb7HVKTYG3xTEiAZ6gtMNE//SFIWKEpGurron4sDpWsFTFSzoITnaxHuIq3YSU0DIhCUcW3NyCw/pFgz8ykMCqv5jUdgI5tqO+XsI5HxjPSs77jUsbKCPF8NAGNNWZk6VCxX ubuntu@ip-172-31-21-41
+centos_private_key: |
+    -----BEGIN RSA PRIVATE KEY-----
+    MIIEowIBAAKCAQEAqQKq+Ayv6gJMr1uwV5Y79WxTqOnOKR+E2nCFMM9dGBTxroBL
+    wfqdGqQ96/VItAojhkCI4GI2gq9uj7FYF0PK5CCFC9pgu4XXpk08VkklqunMhsUW
+    2wQTJPt+CtY+NI7mJKOcacZMGrtYsa5ywPmF4NznqGzD/cbzHSlppyDeGxRpmIYh
+    iQwh+QQO+WXoS9Fqxel7qFYuQYmqRjxsWK+S7JvUVXJMySqTj+vS3RVV2Y1btjUn
+    myzuNZo55QcxBB+2Tfaw4DlLRQ1RkuLfh0K2z4TrwvVtIDP2CttJqLp7mBxbUVxp
+    CvRDR5i5ewjVnlQu5s+ofoKDEgv9x2nZMq+uLwIDAQABAoIBAC7ys8V12MP7YYvw
+    v1qFPCCft9mbIQ6hV8lKKmV1pNmUr9IWh3TaBhwpdZ3/I/QHQPkBIkSaY6QH0YGO
+    9PZ5eXnHYs35GpfcxRvIJrOdXB5PFeZ2BzRNvHeweMHP47W74EhbPo7Pa8KdOjUZ
+    TX03ky30j1Fk7UiopE38fAHWCnygyhtneK4+yvjLi++jilFFS6g5wPNchLiB+YwA
+    IeS6EMwdmp5rsEae2mlNOnOIWiukY1G8VtF5gC29QCf64WEesJQqHRC3rl2A91Po
+    yrvsUDwqNIFMVUXOFCAkIA91+yFDoSlgjqYBTqiNRHAP6xP1t8O9u6O36jTIHTtO
+    mxlfIuECgYEA35GJQf9rr56NifbI9mzzx0y1s8mNeNsYdl/oGqnTgg4KvLmlCjIk
+    l5Q3OenOAK//P7Uezi2d7aVxnecPXrcmGZHlSoEQAk/WSC9C59NeKmQRIipqcJEy
+    hNSrycv8ygzSpl/WTeLPe3UIC17ShIcqYxp4kaxRqmz42VvQcNWMY9ECgYEAwYcO
+    lxgDOszHwosQkFMbuT+OWiDTtDf1D99/7VLzVMz7yO5T6KFp1rA9SMWQzA6lglw+
+    ER+YECP5G/CJy3dtboPA8pKsmG8g5Csp+k7l93B+kEzHXG6POydqtkY0uHzASUi9
+    owfbl5sMlMefsimkyW3oCR5F2ybykwbRlHZ5cf8CgYEA14SLpaSdYbHdzdaqCewj
+    4MdRDhzJFW1YGpz/udxmuaPhs+bec4K9BaZqyphZ7w26aOan6KfO642mhkp85Zh2
+    0QV03SqnjSL7daChxatbxk+quJ3c9+Dwq138sM7FRN2xn5MZmwF/dArwk014cSt/
+    sAOPoRZVr43XImnA+VTTPlECgYA972k99dNiyBLOMg9VASQIP0zhj0vxi08Ei3S3
+    kSqK4ydZgNydwLrMmI6kcYYLqExT0g2TEVdrIvggdvTChzAghE4F0+ckybvvCdlf
+    YEy8yeXXbJsI++Ee/1hpiUJqIJKxYXQ/bs5aUKbQHqr/K9CvHlt6P5P/tRFA+Jeu
+    OdRYJQKBgGRmJan3WisUXl4ZWOkJkBJuXpQHHsZnpCImBBP31DsJvTYwxIktQ9eA
+    Ph9CtzGryv3IK0vq6pcx3hgZn5pQFgeM+7XnAPdfYJWfOJ2JOfIRNpRwqwn6a2Kn
+    gfODsG/kp8MDZ0UuLCpSxgtgYnW5Pw5FfSSny3Z/UhSn/Yg7WPDb
+    -----END RSA PRIVATE KEY-----
+centos_public_key: |
+    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCpAqr4DK/qAkyvW7BXljv1bFOo6c4pH4TacIUwz10YFPGugEvB+p0apD3r9Ui0CiOGQIjgYjaCr26PsVgXQ8rkIIUL2mC7hdemTTxWSSWq6cyGxRbbBBMk+34K1j40juYko5xpxkwau1ixrnLA+YXg3OeobMP9xvMdKWmnIN4bFGmYhiGJDCH5BA75ZehL0WrF6XuoVi5BiapGPGxYr5Lsm9RVckzJKpOP69LdFVXZjVu2NSebLO41mjnlBzEEH7ZN9rDgOUtFDVGS4t+HQrbPhOvC9W0gM/YK20mounuYHFtRXGkK9ENHmLl7CNWeVC7mz6h+goMSC/3Hadkyr64v centos@ip-172-31-21-41
+
+gateway_index_x509_certificate: |
+    -----BEGIN CERTIFICATE-----
+    MIICxDCCAkqgAwIBAgIJAI6RYdlQIp6NMAoGCCqGSM49BAMCMIGfMQswCQYDVQQG
+    EwJJRTEPMA0GA1UECAwGRHVibGluMQ8wDQYDVQQHDAZEdWJsaW4xIjAgBgNVBAoM
+    GUJ1aWxkSXQgV2lwcm8gRGlnaXRhbCBMdGQxCzAJBgNVBAsMAklUMRIwEAYDVQQD
+    DAlsb2NhbGhvc3QxKTAnBgkqhkiG9w0BCQEWGmZhYnJpemlvLnRvcmVsbGlAd2lw
+    cm8uY29tMB4XDTE3MDQxMDIxMzgwNloXDTI3MDQwODIxMzgwNlowgZ8xCzAJBgNV
+    BAYTAklFMQ8wDQYDVQQIDAZEdWJsaW4xDzANBgNVBAcMBkR1YmxpbjEiMCAGA1UE
+    CgwZQnVpbGRJdCBXaXBybyBEaWdpdGFsIEx0ZDELMAkGA1UECwwCSVQxEjAQBgNV
+    BAMMCWxvY2FsaG9zdDEpMCcGCSqGSIb3DQEJARYaZmFicml6aW8udG9yZWxsaUB3
+    aXByby5jb20wdjAQBgcqhkjOPQIBBgUrgQQAIgNiAAQyaiUDkvfNd2qoQAknKYJC
+    Zq/ZkRHTIbzYDLFIHdYvuYXZPGjHDHLd9Y8/XjTpaMzrdmqh4YPmnGMu1tvQbx4R
+    F3sqq00LktEo34Zxvm4caKAnnbiIrXcZ5o6/38nuxsijUDBOMB0GA1UdDgQWBBSb
+    sNdCcoVW1TjC0lIFwbTUH4SkTTAfBgNVHSMEGDAWgBSbsNdCcoVW1TjC0lIFwbTU
+    H4SkTTAMBgNVHRMEBTADAQH/MAoGCCqGSM49BAMCA2gAMGUCMQCr11b/KAgjTS56
+    yjWP1KY8atQqLiuEJzLBa8NwDfz9cEMM2c6jB83mFp6Z+8/6dcoCMHYVu8sjM/zj
+    vseQQXY+OaiAyM8mEqe4AJ+d/aaK58vjo9Bi8v/vpi7yOh8WUnLtvw==
+    -----END CERTIFICATE-----
+gateway_index_x509_key: |
+    -----BEGIN EC PARAMETERS-----
+    BgUrgQQAIg==
+    -----END EC PARAMETERS-----
+    -----BEGIN EC PRIVATE KEY-----
+    MIGkAgEBBDA9NxMDw449puVH9UTbIbwqcFDpkoHLqM4lCXihbosCTXn/8bFp0ZBR
+    t1CNHegAfeegBwYFK4EEACKhZANiAAQyaiUDkvfNd2qoQAknKYJCZq/ZkRHTIbzY
+    DLFIHdYvuYXZPGjHDHLd9Y8/XjTpaMzrdmqh4YPmnGMu1tvQbx4RF3sqq00LktEo
+    34Zxvm4caKAnnbiIrXcZ5o6/38nuxsg=
+    -----END EC PRIVATE KEY-----
+gateway_index_server_crs: ""
+gateway_index_ca_certificate: ""
+gateway_index_srl_key: ""
+gateway_index_ca_key: ""
+gateway_index_ca_passphrase: ""
+gateway_services_x509_certificate: |
+    -----BEGIN CERTIFICATE-----
+    MIIC6DCCAm6gAwIBAgIJALTc5jHi1gTtMAoGCCqGSM49BAMCMIGxMQswCQYDVQQG
+    EwJJRTEPMA0GA1UECAwGRHVibGluMQ8wDQYDVQQHDAZEdWJsaW4xIjAgBgNVBAoM
+    GUJ1aWxkaXQgV2lwcm8gRGlnaXRhbCBMdGQxCzAJBgNVBAsMAklUMSQwIgYDVQQD
+    DBtidWlsZGl0dGVjaC1wcm9kLmFwaWdlZS5uZXQxKTAnBgkqhkiG9w0BCQEWGmZh
+    YnJpemlvLnRvcmVsbGlAd2lwcm8uY29tMB4XDTE3MDQxMjExNTIyNloXDTI3MDQx
+    MDExNTIyNlowgbExCzAJBgNVBAYTAklFMQ8wDQYDVQQIDAZEdWJsaW4xDzANBgNV
+    BAcMBkR1YmxpbjEiMCAGA1UECgwZQnVpbGRpdCBXaXBybyBEaWdpdGFsIEx0ZDEL
+    MAkGA1UECwwCSVQxJDAiBgNVBAMMG2J1aWxkaXR0ZWNoLXByb2QuYXBpZ2VlLm5l
+    dDEpMCcGCSqGSIb3DQEJARYaZmFicml6aW8udG9yZWxsaUB3aXByby5jb20wdjAQ
+    BgcqhkjOPQIBBgUrgQQAIgNiAAS2lG7Ga7UIfiDqUVr2bIwK0ZtyrJmA9tr7QqTv
+    mx/NWbd6ExM8JFMAbH9GpYvR+cVaVV9tZncQ4JaBNws6z4GUlMUR1obrM18DslwH
+    m1x+doyF2YlByPgp7of/E8xq5v2jUDBOMB0GA1UdDgQWBBS2Fm0/P3LioD7NvU+4
+    nsxcQ5a/1jAfBgNVHSMEGDAWgBS2Fm0/P3LioD7NvU+4nsxcQ5a/1jAMBgNVHRME
+    BTADAQH/MAoGCCqGSM49BAMCA2gAMGUCMQCecJSPC6g/9SHvNRhz9y4SOhkJcd+8
+    Y3gws47zhsxCcMrg6HqqgMOOHqPEICgtrqICMESzZ4z87m3DkSTJwzqqkrf04cPw
+    U2tpKz2csS2dCyg3y4xxsYpfjrjqYPEmehuUyw==
+    -----END CERTIFICATE-----
+gateway_services_x509_key: |
+    -----BEGIN EC PARAMETERS-----
+    BgUrgQQAIg==
+    -----END EC PARAMETERS-----
+    -----BEGIN EC PRIVATE KEY-----
+    MIGkAgEBBDAFgxmh6VUqxf+oWuzH3iOaJ/UpW8dLf1P6g84CGlf+bUGhN7MBW+G+
+    I+S1yWqS7oegBwYFK4EEACKhZANiAAS2lG7Ga7UIfiDqUVr2bIwK0ZtyrJmA9tr7
+    QqTvmx/NWbd6ExM8JFMAbH9GpYvR+cVaVV9tZncQ4JaBNws6z4GUlMUR1obrM18D
+    slwHm1x+doyF2YlByPgp7of/E8xq5v0=
+    -----END EC PRIVATE KEY-----
+gateway_services_server_crs: ""
+gateway_services_ca_certificate: ""
+gateway_services_ca_key: ""
+gateway_services_srl_crs: ""
+gateway_services_ca_passphrase: ""
+
+gateway_security_folder: /root/.ssh
+gateway_index_tsl_enabled: false
+gateway_index_x509_certificate_file: ""
+gateway_index_x509_key_file: ""
+gateway_index_server_crs_file: ""
+gateway_index_ca_certificate_file: ""
+gateway_index_ca_key_file: ""
+gateway_index_ca_srl_file: ""
+gateway_services_tsl_enabled: false
+gateway_services_x509_certificate_file: ""
+gateway_services_x509_key_file: ""
+gateway_services_server_crs_file: ""
+gateway_services_ca_certificate_file: ""
+gateway_services_ca_key_file: ""
+gateway_services_ca_srl_file: ""
+apigee_custom_x509_certificate: ""
+apigee_custom_x509_certificate_key: ""
+###### OTHER (to cleanup) #######
+
+riglet_domain: riglet
+
+# To be renamed to match input parameter names
+ad_domain: "{{ krb_domain }}"
+#ad_password: Password123
+ad_krb_realm: "{{ krb_domain | upper }}"
+#base_dn: 'dc=corp,dc=riglet,dc=io'
+
+ad_ips:
+  - "{{ ad_dns_1 }}"
+  - "{{ ad_dns_2 }}"
+
+dns_server: "{{ ad_ips }}"
+
+centos_home: /home/centos
+root_home: /root

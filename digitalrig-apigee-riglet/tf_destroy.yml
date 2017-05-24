@@ -1,0 +1,12 @@
+- hosts: localhost
+  vars_prompt:
+  - name: destroy_confirm
+    prompt: Are you sure to destroy (yes/no)?
+    private: no
+  roles:
+  - { role: terraform-destroy,
+      module: "{{ansible_domain}}/rig",
+      tags: [ tf ],
+      tf_shared_vars: "{{ tf_shared }}",
+      terraform_scripts_dir: "{{ tf_config_path }}"
+    }

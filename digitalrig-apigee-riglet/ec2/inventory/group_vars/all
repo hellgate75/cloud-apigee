@@ -1,0 +1,7 @@
+ansible_user: centos
+ansible_connection: ssh
+gather_facts: no
+
+# EC-2 specific (should be populated from TF)
+ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@{{ ssh_jump_host }}"'
+aws_region: "{{ region }}"

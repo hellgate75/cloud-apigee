@@ -1,0 +1,10 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Terraform template
+# Compiled files
+*.iml
+/generic.riglet/terraform.tfstate.backup
+/generic.riglet/terraform.tfstate
+.terraform
+*.tfstate
+*.tfstate.backup
+**/rig_inputs.tfvars

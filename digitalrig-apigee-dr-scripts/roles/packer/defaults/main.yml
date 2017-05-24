@@ -1,0 +1,4 @@
+packer_version: 0.11.0
+packer_download_url: https://releases.hashicorp.com/packer/{{ packer_version }}/packer_{{ packer_version }}_linux_amd64.zip
+packer_download_dest: /tmp/packer_{{ packer_version }}_linux_amd64.zip
+packer_extracted_dir: /usr/local/packer

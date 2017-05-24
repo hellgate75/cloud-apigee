@@ -1,0 +1,50 @@
+- name: install packages
+  yum: pkg={{ item }} state=installed enablerepo=epel #update_cache=yes
+  with_items:
+    - docker
+
+- name: install recent six (from centos 7 we get 1.3.0 but need newer for docker-py)
+  pip: name=six state=present version=1.9.0
+
+- name: install docker-py
+  pip: name=docker-py state=present
+
+- name: ensure docker running
+  service: name=docker state=restarted enabled=yes
+
+- name: ensure docker-registry config location exists
+  file: path=/etc/docker-registry/ state=directory
+
+- name: Copy docker registry configuraton
+  template: src=config.yml.j2 dest=/etc/docker-registry/config.yml
+
+- name: start registry
+  docker:
+    image: registry:2
+    state: running
+    name: registry
+    docker_api_version: 1.19
+    ports:
+    - "9000:5000"
+    volumes:
+    - /etc/docker-registry/config.yml:/etc/docker/registry/config.yml
+
+- name: Ensure that Nginx htpasswd configuration directory exists
+  file: path=/etc/nginx_config/ state=directory mode=0777
+
+- name: Copy htpasswd for Nginx
+  copy: src={{ item }} dest=/etc/nginx_config/
+  with_items:
+    - docker-registry.htpasswd
+
+- name: Add Nginx repository
+  template: src=nginx.repo.j2 dest=/etc/yum.repos.d/nginx.repo
+
+- name: Install Nginx
+  yum: pkg=nginx state=installed enablerepo=nginx disable_gpg_check=true
+
+- name: copy Nginx proxy configuration
+  template: src=docker-registry.conf.j2 dest=/etc/nginx/conf.d/docker-registry.conf
+
+- name: Enable Nginx
+  service: name=nginx state=reloaded enabled=yes

@@ -1,0 +1,6 @@
+- name: knock-knock
+  local_action: shell knock -d 20 {{ target_host }} {{ knock_open_seq | join(" ") }} && ssh -q {{ user }}@{{ target_host }} exit
+  register: result
+  retries: 10
+  delay: 0
+  until: result.rc == 0

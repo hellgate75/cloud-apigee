@@ -1,0 +1,10 @@
+# Now it's required to cennect to vpn first!!!
+# and you need 'pip install "pywinrm>=0.1.1"'
+# See http://stackoverflow.com/questions/34334209/how-to-make-ansible-connect-to-windows-host-behind-linux-jump-server
+- include: ../knocker.yml
+- include: ../ad-manager.yml
+- include: ../front-end.yml
+- include: ../knocker.yml
+- include: ../gateway.yml
+- include: ../knocker.yml
+- include: ../docker-ci-cd.yml

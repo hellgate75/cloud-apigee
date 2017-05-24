@@ -1,0 +1,21 @@
+- name: configure TF remote state
+  command: terraform remote config -backend=s3 -backend-config="bucket={{bucket}}" -backend-config="key={{ module }}.tfstate" -backend-config="region={{ region }}"
+  args:
+   chdir: "{{ terraform_scripts_dir }}"
+  tags:
+  - tf
+
+- name: run TF destroy
+  command: terraform destroy -force -no-color --var-file=rig_inputs.tfvars
+  when: destroy_confirm == "yes"
+  register: tf_state
+  args:
+    chdir: "{{ terraform_scripts_dir }}"
+  tags:
+  - tf
+
+- name: print TF output
+  debug: msg={{ tf_state.stdout.split('\n') }}
+  when: destroy_confirm == "yes"
+  tags:
+  - tf

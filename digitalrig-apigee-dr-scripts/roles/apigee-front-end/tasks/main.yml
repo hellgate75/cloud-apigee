@@ -1,0 +1,86 @@
+- name: copy install_docker_extra.sh file over
+  copy: src=install_docker_extra.sh dest=/tmp/install_docker_extra.sh
+
+- name: grant permissions install_docker_extra.sh file
+  shell: "chmod 777 /tmp/install_docker_extra.sh"
+
+- name: execute install_docker_extra.sh file
+  shell: "/tmp/install_docker_extra.sh"
+
+- name: remove install_docker_extra.sh file
+  file: name="/tmp/install_docker_extra.sh" state=absent owner=root group=root
+
+- name: add "docker" group if it doesn't exist
+  shell: "groupadd docker"
+  ignore_errors: true
+
+- name: add "centos" to docker group
+  shell: "usermod -aG docker centos"
+  ignore_errors: true
+
+- name: ensure centos .ssh dir
+  file: name="{{ centos_home }}/.ssh" state=directory owner=centos group=centos
+
+- name: Add centos private key
+  copy: content="{{ centos_private_key }}" dest="{{ centos_home }}/.ssh/id_rsa" owner=centos group=centos mode=400
+
+- name: Add centos public key
+  copy: content="{{ centos_public_key }}" dest="{{ centos_home }}/.ssh/id_rsa.pub" owner=centos group=centos mode=400
+  ignore_errors: true
+
+- name: add a centos root public key to centos authorized hosts
+  authorized_key:
+    user: "centos"
+    key: '{{ root_public_key }}'
+    state: present
+
+- name: add a centos user public key to centos authorized hosts
+  authorized_key:
+    user: "centos"
+    key: '{{ centos_public_key }}'
+    state: present
+
+- name: add a centos ubuntu user public key to centos authorized hosts
+  authorized_key:
+    user: "centos"
+    key: '{{ ubuntu_public_key }}'
+    state: present
+
+- name: set ssh config for centos (e.g. to disable host checking for rig domain hosts for ssh operations)
+  template: src=ssh.config.j2 dest="{{ centos_home }}/.ssh/config" owner=centos group=centos mode=644
+  ignore_errors: true
+
+- name: ensure root .ssh dir
+  file: name="{{ root_home }}/.ssh" state=directory owner=root group=root
+
+- name: Add root private key
+  copy: content="{{ root_private_key }}" dest="{{ root_home }}/.ssh/id_rsa" owner=root group=root mode=400
+
+- name: Add root public key
+  copy: content="{{ root_public_key }}" dest="{{ root_home }}/.ssh/id_rsa.pub" owner=root group=root mode=400
+  ignore_errors: true
+
+- name: add a centos public key to root authorized hosts
+  authorized_key:
+    user: root
+    key: '{{ centos_public_key }}'
+    state: present
+
+- name: add a ubuntu public key to root authorized hosts
+  authorized_key:
+    user: root
+    key: '{{ ubuntu_public_key }}'
+    state: present
+
+- name: add a root public key to root authorized hosts
+  authorized_key:
+    user: root
+    key: '{{ root_public_key }}'
+    state: present
+
+- name: add a centos root public key to root authorized hosts
+  authorized_key:
+    user: root
+    key: '{{ centos_public_key }}'
+    state: present
+  notify: Restart docker

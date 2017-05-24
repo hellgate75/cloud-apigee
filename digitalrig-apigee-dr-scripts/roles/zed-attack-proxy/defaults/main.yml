@@ -1,0 +1,8 @@
+---
+zap_download_url: https://github.com/zaproxy/zaproxy/releases/download/2.5.0/ZAP_2.5.0_Linux.tar.gz
+zap_download_dest: /tmp/zap.tar.gz
+zap_extracted_dir: ~/
+zap_dir: ~/zap_2.5.0
+zap_group: zap
+zap_owner: zap
+zap_sym_dest: ~/zap

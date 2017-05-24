@@ -1,0 +1,8 @@
+---
+nginx_worker_processes: "1"
+nginx_worker_connections: "8192"
+nginx_client_max_body_size: "64m"
+nginx_keepalive_timeout: "65"
+nginx_remove_default_vhost: true
+nginx_default_vhost_path: /etc/nginx/sites-enabled/default
+nginx_proxy_cache_path: ""

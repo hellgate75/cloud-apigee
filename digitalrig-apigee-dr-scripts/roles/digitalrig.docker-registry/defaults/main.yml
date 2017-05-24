@@ -1,0 +1,5 @@
+docker_registry_port: 443
+docker_registry_s3_bucket_name: docker-registry-{{ domain|replace(".","-") }}
+
+docker_registry_storage_path: /registry
+docker_registry_search_backend: sqlalchemy

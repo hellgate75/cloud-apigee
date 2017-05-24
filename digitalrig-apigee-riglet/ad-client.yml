@@ -1,0 +1,7 @@
+- hosts: ad-client
+  become: yes
+  roles:
+    - role: ad-client
+      password: "{{ ad_password }}"
+      domain: "{{ ad_domain }}"
+      realm: "{{ ad_krb_realm }}"

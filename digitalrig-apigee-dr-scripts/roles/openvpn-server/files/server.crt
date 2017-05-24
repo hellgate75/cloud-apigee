@@ -1,0 +1,97 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 1 (0x1)
+    Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C=UK, ST=London, L=London, O=Wipro Digital, OU=Builtit, CN=ovpn.ext.riglet.io/name=ca/emailAddress=me@riglet.io
+        Validity
+            Not Before: Apr  5 13:28:48 2016 GMT
+            Not After : Apr  3 13:28:48 2026 GMT
+        Subject: C=UK, ST=London, L=London, O=Wipro Digital, OU=Builtit, CN=ovpn.ext.riglet.io/name=server/emailAddress=me@riglet.io
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:cd:a1:e0:b6:ad:19:fa:81:29:83:c8:fc:da:ca:
+                    d9:57:aa:e8:6f:0d:c3:7e:8f:eb:5f:51:04:7b:f1:
+                    82:1f:c7:3c:e4:16:90:a8:6b:87:75:09:42:31:18:
+                    c4:61:a3:f8:7b:a1:0d:7c:e2:7c:0c:9d:e2:41:1d:
+                    81:4a:65:25:d9:df:2b:50:3a:c9:46:ec:9e:c4:70:
+                    c0:7a:2b:4c:20:17:d4:ea:f2:e8:19:8f:50:97:82:
+                    3a:7e:16:61:85:c0:96:05:cf:5a:bd:51:95:b8:b0:
+                    43:42:28:29:94:19:7e:b8:c5:93:77:28:c3:59:52:
+                    e0:71:96:d0:a2:87:71:89:62:2f:7d:07:1f:42:ef:
+                    30:9a:3a:9a:26:43:9f:8f:be:95:6a:bf:b0:4b:9d:
+                    e1:7d:d6:2f:ad:11:10:66:b8:6f:cb:bf:8d:d4:dd:
+                    9b:f0:1c:79:49:2d:42:73:74:f9:03:c0:ed:c8:12:
+                    ad:8b:2f:39:e3:f3:75:68:89:21:28:18:03:82:54:
+                    f7:a1:07:e4:f5:8a:74:4e:eb:b1:24:ad:c6:01:7b:
+                    80:5c:cc:2d:bd:e4:2a:33:08:0c:a7:08:18:c2:17:
+                    16:0d:6b:09:0d:d6:a8:67:46:57:78:bc:82:2b:43:
+                    3f:ef:6f:0f:de:75:c1:96:a4:2b:69:de:63:25:7c:
+                    cd:79
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Basic Constraints: 
+                CA:FALSE
+            Netscape Cert Type: 
+                SSL Server
+            Netscape Comment: 
+                Easy-RSA Generated Server Certificate
+            X509v3 Subject Key Identifier: 
+                D1:64:BD:5D:85:33:CB:DE:6D:78:46:19:09:FF:0C:E3:8D:6B:78:5A
+            X509v3 Authority Key Identifier: 
+                keyid:61:B9:94:3D:5C:94:05:6C:A8:1E:A4:81:83:69:81:A7:C3:94:34:6B
+                DirName:/C=UK/ST=London/L=London/O=Wipro Digital/OU=Builtit/CN=ovpn.ext.riglet.io/name=ca/emailAddress=me@riglet.io
+                serial:F3:83:57:C6:C9:95:1F:B1
+
+            X509v3 Extended Key Usage: 
+                TLS Web Server Authentication
+            X509v3 Key Usage: 
+                Digital Signature, Key Encipherment
+    Signature Algorithm: sha256WithRSAEncryption
+         09:40:a9:24:08:c1:c0:46:2a:73:5a:b6:5a:74:9f:fb:d4:6e:
+         2d:f8:ab:4a:0b:84:8d:d8:48:d3:c1:1e:b4:71:4d:77:da:11:
+         0a:4e:fc:9b:5b:dc:84:bd:7e:41:e0:48:d1:78:22:20:6b:f5:
+         ae:94:d5:6c:9d:58:d4:13:55:4c:16:ca:3e:c2:a0:8c:73:bd:
+         55:50:23:05:f7:ee:a0:15:34:57:f4:47:6d:bc:bb:95:78:58:
+         05:70:30:8e:3d:be:4d:35:4a:cf:4c:c0:e6:c6:3c:f3:25:92:
+         d3:1b:6c:8d:be:e8:a9:83:04:95:c0:db:1b:37:9d:50:5f:c7:
+         6f:74:12:9c:bc:1b:73:66:89:a7:1d:3c:24:9d:f8:51:22:7e:
+         dd:bf:35:3c:a9:d0:38:5d:bb:9c:7c:ec:dc:da:e4:f0:76:be:
+         b9:1f:39:39:2b:de:76:2f:1d:40:39:f8:4d:09:8b:12:28:50:
+         bd:d3:9c:b0:ff:4d:fe:7d:e6:74:d6:a3:85:a3:c9:5c:5f:e9:
+         5e:73:e6:9a:f4:d7:c0:d0:cf:f4:fb:08:e4:29:ce:4f:dc:3c:
+         c6:d7:07:78:5b:09:35:43:95:f4:aa:61:4a:55:f5:9a:9f:d6:
+         26:69:08:1c:f1:3b:ad:9a:e0:ed:08:66:31:4f:83:8c:69:8a:
+         04:17:3f:21
+-----BEGIN CERTIFICATE-----
+MIIFNDCCBBygAwIBAgIBATANBgkqhkiG9w0BAQsFADCBoDELMAkGA1UEBhMCVUsx
+DzANBgNVBAgTBkxvbmRvbjEPMA0GA1UEBxMGTG9uZG9uMRYwFAYDVQQKEw1XaXBy
+byBEaWdpdGFsMRAwDgYDVQQLEwdCdWlsdGl0MRswGQYDVQQDExJvdnBuLmV4dC5y
+aWdsZXQuaW8xCzAJBgNVBCkTAmNhMRswGQYJKoZIhvcNAQkBFgxtZUByaWdsZXQu
+aW8wHhcNMTYwNDA1MTMyODQ4WhcNMjYwNDAzMTMyODQ4WjCBpDELMAkGA1UEBhMC
+VUsxDzANBgNVBAgTBkxvbmRvbjEPMA0GA1UEBxMGTG9uZG9uMRYwFAYDVQQKEw1X
+aXBybyBEaWdpdGFsMRAwDgYDVQQLEwdCdWlsdGl0MRswGQYDVQQDExJvdnBuLmV4
+dC5yaWdsZXQuaW8xDzANBgNVBCkTBnNlcnZlcjEbMBkGCSqGSIb3DQEJARYMbWVA
+cmlnbGV0LmlvMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzaHgtq0Z
++oEpg8j82srZV6robw3Dfo/rX1EEe/GCH8c85BaQqGuHdQlCMRjEYaP4e6ENfOJ8
+DJ3iQR2BSmUl2d8rUDrJRuyexHDAeitMIBfU6vLoGY9Ql4I6fhZhhcCWBc9avVGV
+uLBDQigplBl+uMWTdyjDWVLgcZbQoodxiWIvfQcfQu8wmjqaJkOfj76Var+wS53h
+fdYvrREQZrhvy7+N1N2b8Bx5SS1Cc3T5A8DtyBKtiy854/N1aIkhKBgDglT3oQfk
+9Yp0TuuxJK3GAXuAXMwtveQqMwgMpwgYwhcWDWsJDdaoZ0ZXeLyCK0M/728P3nXB
+lqQrad5jJXzNeQIDAQABo4IBcTCCAW0wCQYDVR0TBAIwADARBglghkgBhvhCAQEE
+BAMCBkAwNAYJYIZIAYb4QgENBCcWJUVhc3ktUlNBIEdlbmVyYXRlZCBTZXJ2ZXIg
+Q2VydGlmaWNhdGUwHQYDVR0OBBYEFNFkvV2FM8vebXhGGQn/DOONa3haMIHVBgNV
+HSMEgc0wgcqAFGG5lD1clAVsqB6kgYNpgafDlDRroYGmpIGjMIGgMQswCQYDVQQG
+EwJVSzEPMA0GA1UECBMGTG9uZG9uMQ8wDQYDVQQHEwZMb25kb24xFjAUBgNVBAoT
+DVdpcHJvIERpZ2l0YWwxEDAOBgNVBAsTB0J1aWx0aXQxGzAZBgNVBAMTEm92cG4u
+ZXh0LnJpZ2xldC5pbzELMAkGA1UEKRMCY2ExGzAZBgkqhkiG9w0BCQEWDG1lQHJp
+Z2xldC5pb4IJAPODV8bJlR+xMBMGA1UdJQQMMAoGCCsGAQUFBwMBMAsGA1UdDwQE
+AwIFoDANBgkqhkiG9w0BAQsFAAOCAQEACUCpJAjBwEYqc1q2WnSf+9RuLfirSguE
+jdhI08EetHFNd9oRCk78m1vchL1+QeBI0XgiIGv1rpTVbJ1Y1BNVTBbKPsKgjHO9
+VVAjBffuoBU0V/RHbby7lXhYBXAwjj2+TTVKz0zA5sY88yWS0xtsjb7oqYMElcDb
+GzedUF/Hb3QSnLwbc2aJpx08JJ34USJ+3b81PKnQOF27nHzs3Nrk8Ha+uR85OSve
+di8dQDn4TQmLEihQvdOcsP9N/n3mdNajhaPJXF/pXnPmmvTXwNDP9PsI5CnOT9w8
+xtcHeFsJNUOV9KphSlX1mp/WJmkIHPE7rZrg7QhmMU+DjGmKBBc/IQ==
+-----END CERTIFICATE-----

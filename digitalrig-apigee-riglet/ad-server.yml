@@ -1,0 +1,15 @@
+- hosts: ad
+  become: yes
+  roles:
+    - role: samba-ad
+      enable_dhcp_services: false
+      samba_create_domain_controller: true
+      samba_server_role: 'active directory domain controller'
+      adminpass: 'Password123'
+      pri_domain_name: 'corp.riglet.local'
+      # fixme: yum does not work with landrush forwarder
+      dns_forwarder: '8.8.8.8'
+      #dns_forwarder: '10.0.2.3'
+      samba_domain_users:
+      - name: 'testuser'
+        password: 'Password123'

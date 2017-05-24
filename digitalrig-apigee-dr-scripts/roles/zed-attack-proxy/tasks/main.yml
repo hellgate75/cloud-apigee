@@ -1,0 +1,22 @@
+---
+  - name: enable installation check
+    stat: path={{ zap_dir }}
+    register: zap_dir_stat
+
+  - name: download zed attack proxy
+    get_url: url={{ zap_download_url }} dest={{ zap_download_dest }}
+    register: task_result
+    until: task_result|success
+    retries: 5
+    delay: 1
+    when: not zap_dir_stat.stat.exists
+
+  - name: extract zap
+    command: tar -xvf {{ zap_download_dest }} -C {{ zap_extracted_dir }}
+    when: not zap_dir_stat.stat.exists
+
+  - name: make zed attack proxy directory property of jenkins user/group
+    file: path={{ zap_dir }} group={{ zap_group }} owner={{ zap_owner }} recurse=true
+
+  - name: create symbolic links to zed attack proxy
+    file: src={{ zap_dir }} dest={{ zap_sym_dest }} group={{ zap_group }} owner={{ zap_owner }} state=link

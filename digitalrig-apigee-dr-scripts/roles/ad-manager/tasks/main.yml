@@ -1,0 +1,5 @@
+- name: Configure box to point to active directory for DNS resolution
+  raw:  Set-DNSClientServerAddress –interfaceIndex 12 –ServerAddresses ("{{ active_directory_ip_addresses[0] }}",”{{ active_directory_ip_addresses[1] }}”)
+
+- name: Attach domain to the computer
+  raw:  $username= "{{ active_directory_domain }}\{{ ad_user }}"; $password = "{{ ad_pass }}" | ConvertTo-SecureString -asPlainText -Force; $cred = New-Object -TypeName System.Management.Automation.PSCredential -argumentlist ($username,$password); Add-Computer -DomainName {{ active_directory_domain }} -Credential $cred -restart

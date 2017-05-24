@@ -1,0 +1,9 @@
+[{{ item.name }}]
+name={{ item.name }}
+baseurl={{ item.baseurl }}
+enabled={{ yum_s3_repo_enabled }}
+s3_enabled=1
+gpgcheck=0
+{% if yum_s3_metadata_expire is defined %}
+metadata_expire={{ yum_s3_metadata_expire }}
+{% endif %}

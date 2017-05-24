@@ -1,0 +1,6 @@
+passStandardProxyHeaders()
+
+host('*.app.{{ domain }}') {
+  anonymousAccess()
+  prefixWith "internal."
+}

@@ -1,0 +1,12 @@
+---
+subnets: ['10.10.0.0 255.255.0.0']
+client_subnet: '10.8.0.0 255.255.255.0'
+
+openvpn_dir: "/etc/openvpn"
+openvpn_keys_dir: "{{ openvpn_dir }}/keys"
+openvpn_vars: "{{ openvpn_dir }}/vars"
+openvpn_config_name: "{{ ansible_domain }}.{{ route_53_domain_name }}.ovpn"
+
+easyrsa_dir: "/usr/share/easy-rsa/2.0"
+
+key_name: "riglet"

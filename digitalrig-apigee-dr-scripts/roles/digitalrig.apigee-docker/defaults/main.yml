@@ -1,0 +1,3 @@
+docker_registry_hostname: "{{ ansible_fqdn }}.riglet"
+docker_registry_port: 443
+docker_registry_address: "{{ docker_registry_hostname }}:{{ docker_registry_port }}"

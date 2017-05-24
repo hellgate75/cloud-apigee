@@ -1,0 +1,6 @@
+.idea
+.vagrant
+*.iml
+*.retry
+tmp
+**/*_vms.sh
