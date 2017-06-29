@@ -20,7 +20,7 @@ The players in the architecture are :
 * Client System : It can be any application that have to request API Rest Services
 * Client Gateway : NGNIX Proxy communicating with your APIGee Proxies
 * APIGee Micro-Gateway : Reverse Proxy and API Manager, APIGee Edge Organization Account
-* Service Gateway : Buildit Gateway API Rest streaming manager, down-streaming APIGee Proxy requests
+* [Service Gateway](https://github.com/hellgate75/api-gateway) : Gateway API streaming manager, down-streaming APIGee Proxy requests
 * REST API Service: Machine with a sampler pipeline (Jenkins, SonarQube, Sonar PostgreSQL database and Nexus OSS docker containers)
 
 This project realizes a RIG instance on following cloud providers:
