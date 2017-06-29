@@ -58,7 +58,7 @@ Follow the installation guides provided in each implementation.
 
 ## License
 
-Copyright (c) 2016-2017 [BuildIt, Inc.](https://medium.com/buildit)
+Copyright (c) 2016-2017 [Fabrizio Torelli]https://www.linkedin.com/in/fabriziotorelli/)
 
 Licensed under the [MIT](/LICENSE) License (the "License");
 you may not use this file except in compliance with the License.
